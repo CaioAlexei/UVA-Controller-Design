@@ -1,0 +1,590 @@
+#:kivy 2.0
+#:import utils kivy.utils
+
+GerenciarTelas:
+    id: screen_manager
+
+    Tela_Inicial:
+        name: app.tela_inicio
+    Tela_Arquivo:
+        name: app.tela_arquivo
+    Tela_Menu:
+        name: app.tela_menu    
+    Tela_Representacao_Sistema:
+        name: app.tela_representacao_sistema
+    Tela_Tempo_Resposta:
+        name: app.tela_tempo_resposta
+    Tela_Resposta_Frequencia:
+        name: app.tela_resposta_frequencia
+    Tela_Diagrama_Bloco:
+        name: app.tela_diagrama_bloco
+    Tela_Estabilidade:
+        name: app.tela_estabilidade
+    Tela_Desing_Controle:
+        name: app.tela_desing_controle
+    Tela_Digitalizacao:
+        name: app.tela_digitalizacao
+
+    Entrada_Tempo:
+        name: 'input_time'
+    Entrada_Tempo_Ini_Fim:
+        name: 'entr_ini_fim'
+    Entrada_Realimentacao_Tipo:
+        name: 'entr_rea_tipo'
+
+# --------------------------------------- Telas Primárias --------------------------------------------- #
+
+<Tela_Inicial>:
+    MDBoxLayout:
+        orientation: 'vertical'
+
+        MDTopAppBar:
+            title: app.titulo
+            pos_hint:{'top': 1}
+
+        MDBoxLayout:
+            MDAnchorLayout:
+                anchor_y: 'center'
+                anchor_x: 'center'
+                MDRaisedButton:
+                    text: "Iniciar"
+                    line_width: 2
+                    on_release:
+                        app.root.current = app.tela_arquivo
+
+<Tela_Arquivo>
+    BoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: app.titulo
+            pos_hint:{'top': 1}
+
+        MDLabel:
+            text:'Representação do Sistema'
+            font_style: 'H4'
+
+        MDLabel:
+            text:root.texto1
+        
+        MDFloatLayout:
+            MDRoundFlatIconButton:
+                text: "Selecionar arquivo"
+                icon: "folder"
+                pos_hint: {'center_x': .5, 'center_y': .6}
+                theme_text_color: 'ContrastParentBackground'
+                theme_icon_color: 'ContrastParentBackground'
+                line_color: 0,0,0,1
+                on_release: root.caminho_arquivo()
+            MDRoundFlatIconButton:
+                text: "Confirmar"                
+                pos_hint: {'center_x': .5, 'center_y': .3}
+                theme_text_color: 'ContrastParentBackground'
+                theme_icon_color: 'ContrastParentBackground'
+                line_color: 0,0,0,1
+                on_release: root.confirmacao()
+        
+
+<Tela_Menu>
+    MDTopAppBar:
+        title: app.titulo
+        pos_hint:{'top': 1}
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        pos_hint:{'center_x':0.5,'center_y':0.7}
+        spacing:10
+
+        MDRaisedButton:
+            text:'Representação do Sistema'
+            pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+            on_release: app.root.current = app.tela_representacao_sistema
+            size_hint: None, None
+            width: root.width*0.7    
+
+        MDRaisedButton:
+            text:'Tempo de Resposta'
+            pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+            on_release: app.root.current = app.tela_tempo_resposta
+            size_hint: None, None
+            width: root.width*0.7
+
+        MDRaisedButton:
+            text:'Resposta de Frequência'
+            pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+            on_release: app.root.current = app.tela_resposta_frequencia
+            size_hint: None, None
+            width: root.width*0.7
+
+        MDRaisedButton:
+            text:'Diagrama de Bloco'
+            pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+            on_release: app.root.current = app.tela_diagrama_bloco
+            size_hint: None, None
+            width: root.width*0.7
+
+        MDRaisedButton:
+            text:'Estabilidade'
+            pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+            on_release: app.root.current = app.tela_estabilidade
+            size_hint: None, None
+            width: root.width*0.7
+
+        MDRaisedButton:
+            text:'Design de Controle'
+            pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+            on_release: app.root.current = app.tela_desing_controle
+            size_hint: None, None
+            width: root.width*0.7
+
+        MDRaisedButton:
+            text:'Digitalização'
+            pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+            on_release: app.root.current = app.tela_digitalizacao
+            size_hint: None, None
+            width: root.width*0.7
+<Tela_Representacao_Sistema>
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        
+        MDBoxLayout:
+            orientation: 'vertical'
+            MDBoxLayout:
+                adaptive_height: True
+                pos_hint: {'top': 1}
+                MDLabel:
+                    text: 'Selecione o tipo de representação:'
+                    font_style: 'H4'
+                    halign: 'center'
+                    #valign: 'top'
+
+            MDAnchorLayout:
+                anchor_x: 'center'
+                anchor_y: 'center'
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    adaptive_height: True
+                    
+                    spacing: 10
+                    MDRaisedButton:
+                        text: "Função de Transferência"
+                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                        size_hint: None, None
+                        width: root.width*0.8
+                        on_release: 
+                            app.root.current = 'input_time'
+                            
+                    MDRaisedButton:
+                        text: "Equação Espaço-Estado"
+                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                        size_hint: None, None
+                        width: root.width*0.8
+                        on_release: app.root.current = 'input_time'
+                    
+
+        MDIconButton:
+            icon: 'arrow-left'
+            on_release:
+                app.root.current = app.tela_menu
+
+<Tela_Tempo_Resposta>
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        
+        MDBoxLayout:
+            orientation: 'vertical'
+            MDBoxLayout:
+                adaptive_height: True
+                pos_hint: {'top': 1}
+                MDLabel:
+                    text: 'Selecione o tipo de resposta:'
+                    font_style: 'H4'
+                    halign: 'center'
+                    #valign: 'top'
+
+            MDAnchorLayout:
+                anchor_x: 'center'
+                anchor_y: 'center'
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    adaptive_height: True
+                    
+                    spacing: 10
+                    MDRaisedButton:
+                        text: "Resposta ao Impulso Unitário"
+                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                        size_hint: None, None
+                        width: root.width*0.8
+                        on_release: 
+                            app.root.current = 'input_time'
+                            
+                    MDRaisedButton:
+                        text: "Resposta ao Degrau Unitário"
+                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                        size_hint: None, None
+                        width: root.width*0.8
+                        on_release: app.root.current = 'input_time'
+                    MDRaisedButton:
+                        text: "Resposta com uma condição inicial"
+                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                        size_hint: None, None
+                        width: root.width*0.8
+                        on_release: app.root.current = 'input_time'
+                    MDRaisedButton:
+                        text: "Resposta Forçada"
+                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                        size_hint: None, None
+                        width: root.width*0.8
+                        on_release: app.root.current = 'input_time'
+        MDIconButton:
+            icon: 'arrow-left'
+            on_release:
+                app.root.current = app.tela_menu
+
+<Tela_Resposta_Frequencia>
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        
+        MDBoxLayout:
+            orientation: 'vertical'
+            MDBoxLayout:
+                adaptive_height: True
+                pos_hint: {'top': 1}
+                MDLabel:
+                    text: 'Selecione o tipo de resposta'
+                    font_style: 'H4'
+                    halign: 'center'
+            MDAnchorLayout:
+                anchor_x: 'center'
+                anchor_y: 'center'
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    adaptive_height: True
+                    
+                    spacing: 10
+                    MDRaisedButton:
+                        text: "Resposta com o Diagrama de Bode"
+                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                        size_hint: None, None
+                        width: root.width*0.8
+                        on_release: 
+                            app.root.current = 'entr_ini_fim'
+                            
+                    MDRaisedButton:
+                        text: "Resposta com o método de Nyquist"
+                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                        size_hint: None, None
+                        width: root.width*0.8
+                        on_release: root.gerar_grafico_nyquist()
+            
+        MDIconButton:
+            icon: 'arrow-left'
+            on_release:
+                app.root.current = app.tela_menu
+
+<Tela_Diagrama_Bloco>
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        
+        MDBoxLayout:
+            orientation: 'vertical'
+            MDBoxLayout:
+                adaptive_height: True
+                pos_hint: {'top': 1}
+                MDLabel:
+                    text: 'Selecione o tipo de resposta'
+                    font_style: 'H4'
+                    halign: 'center'
+            MDAnchorLayout:
+                anchor_x: 'center'
+                anchor_y: 'center'
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    adaptive_height: True
+                    spacing: 10
+
+                    MDRaisedButton:
+                        text: "Resposta Série"
+                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                        size_hint: None, None
+                        width: root.width*0.8
+                        on_release: 
+                            app.root.current = 'entr_func_transf'
+                            
+                    MDRaisedButton:
+                        text: "Resposta paralelo"
+                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                        size_hint: None, None
+                        width: root.width*0.8
+                        on_release: app.root.current = 'entr_func_transf'
+                    
+                    MDRaisedButton:
+                        text: "Resposta realimentação"
+                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                        size_hint: None, None
+                        width: root.width*0.8
+                        on_release: app.root.current = 'entr_rea_tipo'
+            
+        MDIconButton:
+            icon: 'arrow-left'
+            on_release:
+                app.root.current = app.tela_menu
+<Tela_Estabilidade>
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        
+        MDBoxLayout:
+            orientation: 'vertical'
+            MDBoxLayout:
+                adaptive_height: True
+                pos_hint: {'top': 1}
+                MDLabel:
+                    text: 'Selecione o tipo de Estabilidade & Robustez:'
+                    font_style: 'H4'
+                    halign: 'center'
+            MDAnchorLayout:
+                anchor_x: 'center'
+                anchor_y: 'center'
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    adaptive_height: True
+                    spacing: 10
+
+                    MDRaisedButton:
+                        text: "Pole & Zero"
+                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                        size_hint: None, None
+                        width: root.width*0.8
+                        on_release: 
+                            app.root.current = 'entr_func_transf'
+                            
+                    MDRaisedButton:
+                        text: "Margem de Estabilidade"
+                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                        size_hint: None, None
+                        width: root.width*0.8
+                        on_release: app.root.current = 'entr_func_transf'
+                    
+                    
+            
+        MDIconButton:
+            icon: 'arrow-left'
+            on_release:
+                app.root.current = app.tela_menu
+<Tela_Desing_Controle>
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        
+        MDBoxLayout:
+            orientation: 'vertical'
+            MDBoxLayout:
+                adaptive_height: True
+                pos_hint: {'top': 1}
+                MDLabel:
+                    text: 'Selecione o tipo de Design:'
+                    font_style: 'H4'
+                    halign: 'center'
+            MDAnchorLayout:
+                anchor_x: 'center'
+                anchor_y: 'center'
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    adaptive_height: True
+                    spacing: 10
+
+                    MDRaisedButton:
+                        text: "Colocação de Pole"
+                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                        size_hint: None, None
+                        width: root.width*0.8
+                        on_release: 
+                            app.root.current = 'entr_func_transf'
+                            
+                    MDRaisedButton:
+                        text: "LQ controle óptimo"
+                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                        size_hint: None, None
+                        width: root.width*0.8
+                        on_release: app.root.current = 'entr_func_transf'
+                    
+                    
+            
+        MDIconButton:
+            icon: 'arrow-left'
+            on_release:
+                app.root.current = app.tela_menu
+
+<Tela_Digitalizacao>
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        
+        MDBoxLayout:
+            orientation: 'vertical'
+            MDBoxLayout:
+                adaptive_height: True
+                pos_hint: {'top': 1}
+                MDLabel:
+                    text: 'Selecione o tipo de Digitalização'
+                    font_style: 'H4'
+                    halign: 'center'
+            MDAnchorLayout:
+                anchor_x: 'center'
+                anchor_y: 'center'
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    adaptive_height: True
+                    spacing: 10
+
+                    MDRaisedButton:
+                        text: "Segurar ordem zero"
+                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                        size_hint: None, None
+                        width: root.width*0.8
+                        on_release: 
+                            app.root.current = 'entr_func_transf'
+                            
+                    MDRaisedButton:
+                        text: "Tranformação Tustin"
+                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                        size_hint: None, None
+                        width: root.width*0.8
+                        on_release: app.root.current = 'entr_func_transf'
+                    
+                    
+            
+        MDIconButton:
+            icon: 'arrow-left'
+            on_release:
+                app.root.current = app.tela_menu
+
+# ------------------------------------------- Telas Secundárias ------------------------------------------ #
+
+#---Tempo Resposta---#
+#2°
+<Entrada_Tempo>
+    MDBoxLayout:
+        padding: 10
+        orientation: "vertical"
+
+        MDLabel:
+            text: 'Entre com os dados solicitados:'
+            font_style: 'Subtitle1'
+            halign: 'center'
+
+        MDTextField:
+            hint_text: "Tempo de Simulação (T)"
+
+        MDBoxLayout:
+            MDFlatButton:
+                text: 'Cancelar'
+                on_release: 
+                    app.root.current = app.tela_tempo_resposta
+                    app.root.transition.direction = 'right'
+
+            MDFlatButton:
+                text: 'Ok'
+
+
+#---Resposta de Frequência---#
+
+#2°
+
+<Entrada_Tempo_Ini_Fim>
+
+    MDBoxLayout:
+        canvas.before:
+            Color:
+                rgb: utils.get_color_from_hex("#ffffff")
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        padding: 10
+        orientation: "vertical"
+
+        MDLabel:
+            text: 'Entre com os dados solicitados:'
+            font_style: 'Subtitle1'
+            halign: 'center'
+
+        MDTextField:
+            id: fmin
+            hint_text: "Frequência Mínima ( Padrão = 1):"
+            input_filter: "float"
+        
+        MDTextField:
+            id: fmax
+            hint_text: "Frequência Máxima ( Padrão = 100):"
+            input_filter: "float"
+
+        MDBoxLayout:
+            MDFlatButton:
+                text: 'Cancelar'
+                on_release: 
+                    app.root.current = app.tela_resposta_frequencia
+                    root.clear()
+                    app.root.transition.direction = 'right'
+
+            MDFlatButton:
+                text: 'Ok'
+                on_release: 
+                    root.gerar_grafico_bode()
+                    root.clear()
+
+#---Diagrama de Bloco---#
+
+#2°
+
+<Entrada_Realimentacao_Tipo>
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        
+        MDBoxLayout:
+            orientation: 'vertical'
+            MDBoxLayout:
+                adaptive_height: True
+                pos_hint: {'top': 1}
+                MDLabel:
+                    text: 'Selecione o tipo realimentação:'
+                    font_style: 'H4'
+                    halign: 'center'
+            MDAnchorLayout:
+                anchor_x: 'center'
+                anchor_y: 'center'
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    adaptive_height: True
+                    spacing: 10
+                            
+                    MDRaisedButton:
+                        text: "Positiva"
+                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                        size_hint: None, None
+                        width: root.width*0.8
+                        on_release: app.root.current = 'entr_func_transf'
+                    
+                    MDRaisedButton:
+                        text: "Negativa"
+                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                        size_hint: None, None
+                        width: root.width*0.8
+                        on_release: app.root.current = 'entr_func_transf'
+
+        MDIconButton:
+            icon: 'arrow-left'
+            on_release:
+                app.root.current = app.tela_diagrama_bloco
