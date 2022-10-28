@@ -1,3 +1,6 @@
+from tkinter import *
+from tkinter import filedialog
+
 from kivy.core.window import Window
 from kivy.properties import StringProperty
 from kivy.uix.boxlayout import BoxLayout
@@ -6,15 +9,10 @@ from kivymd.app import MDApp
 from kivymd.toast import toast
 from kivymd.uix.button import MDFlatButton
 
-
-from tkinter import filedialog
-from tkinter import *
-
 import arquivo
-from blocos import bloco3
-
 #Globals
 import Global
+from blocos import bloco3
 
 '''ola'''
 #----------------------------------------- Gerenciador de Telas ----------------------------------------#
@@ -64,7 +62,9 @@ class Tela_Representacao_Sistema(Screen):
 class Tela_Tempo_Resposta(Screen):
     pass        
 class Tela_Resposta_Frequencia(Screen):
-    pass
+    def gerar_grafico_nyquist(self):
+        bloco3.diagrama_nyquist()
+        
 class Tela_Diagrama_Bloco(Screen):
     pass
 class Tela_Estabilidade(Screen):
@@ -92,8 +92,8 @@ class Entrada_Tempo_Ini_Fim(Screen):
         if(self.ids.fmax.text == "" or self.ids.fmin.text == ""):
             return
 
-        f_max = int(self.ids.fmax.text)
-        f_min = int(self.ids.fmin.text)
+        f_max = float(self.ids.fmax.text)
+        f_min = float(self.ids.fmin.text)
         print(Global.sys1)
         bloco3.diagrama_bode(f_max, f_min,Global.sys1)
         
