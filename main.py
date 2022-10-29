@@ -12,9 +12,9 @@ from kivymd.uix.button import MDFlatButton
 import arquivo
 #Globals
 import Global
-from blocos import bloco3
+from blocos import bloco2, bloco3
 
-'''ola'''
+
 #----------------------------------------- Gerenciador de Telas ----------------------------------------#
 class GerenciarTelas(ScreenManager):
     pass
@@ -69,7 +69,7 @@ class Tela_Diagrama_Bloco(Screen):
     pass
 class Tela_Estabilidade(Screen):
     pass
-class Tela_Desing_Controle(Screen):
+class Tela_Design_Controle(Screen):
     pass
 class Tela_Digitalizacao(Screen):
     pass
@@ -78,9 +78,73 @@ class Tela_Digitalizacao(Screen):
 
 #---Tempo Resposta---#
 
-class Entrada_Tempo(Screen):
-    pass
+class Entrada_Tempo_impulso_unit(Screen):
+    def gerar_grafico_imp_unit(self):
+        if(self.ids.t_inicial.text == "" or self.ids.t_final.text == ""):
+            return
 
+        inicial = float(self.ids.t_inicial.text)
+        final = float(self.ids.t_final.text)
+
+        bloco2.resp_impulso_unitario(inicial, final)
+    
+    def clear(self):
+        self.ids.t_inicial.text = ""
+        self.ids.t_final.text = ""
+
+class Entrada_Tempo_degrau_unit(Screen):
+    def gerar_grafico_deg_unit(self):
+        if(self.ids.t_inicial.text == "" or self.ids.t_final.text == ""):
+            return
+        
+        inicial = float(self.ids.t_inicial.text)
+        final = float(self.ids.t_final.text)
+
+        bloco2.resp_degrau_unitario(inicial, final)
+
+    def clear(self):
+        self.ids.t_inicial.text = ""
+        self.ids.t_final.text = ""
+
+class Entrada_Tempo_condicao_ini(Screen):
+    def gerar_grafico_codicao_ini(self):
+        if(self.ids.t_inicial.text == "" or self.ids.t_final.text == "" or
+        self.ids.elemento1.text == "" or self.ids.elemento2.text == ""):
+            return
+
+        inicial = float(self.ids.t_inicial.text)
+        final = float(self.ids.t_final.text)
+
+        vetor = list((int(self.ids.elemento1.text), int(self.ids.elemento2.text)))
+
+        bloco2.resp_condicao_inicial(inicial, final, vetor)
+        
+    def clear(self):
+        self.ids.t_inicial.text = ""
+        self.ids.t_final.text = ""
+        self.ids.elemento1.text = ""
+        self.ids.elemento2.text = ""
+
+class Entrada_Tempo_forcada(Screen):
+    def gerar_grafico_resp_forcada(self):
+        if(self.ids.t_inicial.text == "" or self.ids.t_final.text == "" or
+        self.ids.elemento1.text == "" or self.ids.elemento2.text == ""):
+            return
+
+        inicial = float(self.ids.t_inicial.text)
+        final = float(self.ids.t_final.text)
+
+        vetor = list((int(self.ids.elemento1.text), int(self.ids.elemento2.text)))
+
+        bloco2.resp_forcada(inicial, final, vetor)
+
+
+    def clear(self):
+        self.ids.t_inicial.text = ""
+        self.ids.t_final.text = ""
+        self.ids.elemento1.text = ""
+        self.ids.elemento2.text = ""
+    
 
 #---Resposta de Frequência---#
 
@@ -120,7 +184,7 @@ class Projetoele(MDApp):
     tela_resposta_frequencia='tela_resposta_frequencia'
     tela_diagrama_bloco='tela_diagrama_bloco'
     tela_estabilidade='tela_estabilidade'
-    tela_desing_controle='tela_desing_controle'
+    tela_design_controle='tela_design_controle'
     tela_digitalizacao='tela_digitalizacao'
 
     #titulo do app

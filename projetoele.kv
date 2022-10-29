@@ -20,15 +20,22 @@ GerenciarTelas:
         name: app.tela_diagrama_bloco
     Tela_Estabilidade:
         name: app.tela_estabilidade
-    Tela_Desing_Controle:
-        name: app.tela_desing_controle
+    Tela_Design_Controle:
+        name: app.tela_design_controle
     Tela_Digitalizacao:
         name: app.tela_digitalizacao
 
-    Entrada_Tempo:
-        name: 'input_time'
+    Entrada_Tempo_impulso_unit:
+        name: 'entr_impulso_unit'
+    Entrada_Tempo_degrau_unit:
+        name: 'entr_degrau_unit'
+    Entrada_Tempo_condicao_ini:
+        name: 'entr_condicao_ini'
+    Entrada_Tempo_forcada:
+        name: 'entr_forcada'
+    
     Entrada_Tempo_Ini_Fim:
-        name: 'entr_ini_fim'
+        name: 'entr_bode'
     Entrada_Realimentacao_Tipo:
         name: 'entr_rea_tipo'
 
@@ -132,7 +139,7 @@ GerenciarTelas:
         MDRaisedButton:
             text:'Design de Controle'
             pos_hint:{'center_x': 0.5, 'center_y': 0.5}
-            on_release: app.root.current = app.tela_desing_controle
+            on_release: app.root.current = app.tela_design_controle
             size_hint: None, None
             width: root.width*0.7
 
@@ -219,26 +226,26 @@ GerenciarTelas:
                         size_hint: None, None
                         width: root.width*0.8
                         on_release: 
-                            app.root.current = 'input_time'
+                            app.root.current = 'entr_impulso_unit'
                             
                     MDRaisedButton:
                         text: "Resposta ao Degrau Unitário"
                         pos_hint:{'center_x': 0.5, 'center_y': 0.5}
                         size_hint: None, None
                         width: root.width*0.8
-                        on_release: app.root.current = 'input_time'
+                        on_release: app.root.current = 'entr_degrau_unit'
                     MDRaisedButton:
                         text: "Resposta com uma condição inicial"
                         pos_hint:{'center_x': 0.5, 'center_y': 0.5}
                         size_hint: None, None
                         width: root.width*0.8
-                        on_release: app.root.current = 'input_time'
+                        on_release: app.root.current = 'entr_condicao_ini'
                     MDRaisedButton:
                         text: "Resposta Forçada"
                         pos_hint:{'center_x': 0.5, 'center_y': 0.5}
                         size_hint: None, None
                         width: root.width*0.8
-                        on_release: app.root.current = 'input_time'
+                        on_release: app.root.current = 'entr_forcada'
         MDIconButton:
             icon: 'arrow-left'
             on_release:
@@ -273,7 +280,7 @@ GerenciarTelas:
                         size_hint: None, None
                         width: root.width*0.8
                         on_release: 
-                            app.root.current = 'entr_ini_fim'
+                            app.root.current = 'entr_bode'
                             
                     MDRaisedButton:
                         text: "Resposta com o método de Nyquist"
@@ -380,7 +387,7 @@ GerenciarTelas:
             icon: 'arrow-left'
             on_release:
                 app.root.current = app.tela_menu
-<Tela_Desing_Controle>
+<Tela_Design_Controle>
     MDBoxLayout:
         orientation: 'vertical'
         padding: 10
@@ -474,7 +481,7 @@ GerenciarTelas:
 
 #---Tempo Resposta---#
 #2°
-<Entrada_Tempo>
+<Entrada_Tempo_impulso_unit>
     MDBoxLayout:
         padding: 10
         orientation: "vertical"
@@ -485,7 +492,14 @@ GerenciarTelas:
             halign: 'center'
 
         MDTextField:
-            hint_text: "Tempo de Simulação (T)"
+            id: t_inicial
+            hint_text: "Digite o tempo inicial:"
+            input_filter: "float"
+        
+        MDTextField:
+            id: t_final
+            hint_text: "Digite o tempo final:"
+            input_filter: "float"
 
         MDBoxLayout:
             MDFlatButton:
@@ -496,7 +510,145 @@ GerenciarTelas:
 
             MDFlatButton:
                 text: 'Ok'
+                on_release:
+                    root.gerar_grafico_imp_unit()
+                    root.clear()
 
+<Entrada_Tempo_degrau_unit>
+    MDBoxLayout:
+        padding: 10
+        orientation: "vertical"
+
+        MDLabel:
+            text: 'Entre com os dados solicitados:'
+            font_style: 'Subtitle1'
+            halign: 'center'
+
+        MDTextField:
+            id: t_inicial
+            hint_text: "Digite o tempo inicial:"
+            input_filter: "float"
+        
+        MDTextField:
+            id: t_final
+            hint_text: "Digite o tempo final:"
+            input_filter: "float"
+
+        MDBoxLayout:
+            MDFlatButton:
+                text: 'Cancelar'
+                on_release: 
+                    app.root.current = app.tela_tempo_resposta
+                    app.root.transition.direction = 'right'
+
+            MDFlatButton:
+                text: 'Ok'
+                on_release:
+                    root.gerar_grafico_deg_unit()
+                    root.clear()
+
+<Entrada_Tempo_condicao_ini>
+    MDBoxLayout:
+        padding: 10
+        orientation: "vertical"
+
+        MDLabel:
+            text: 'Entre com os dados solicitados:'
+            font_style: 'Subtitle1'
+            halign: 'center'
+
+        MDTextField:
+            id: t_inicial
+            hint_text: "Digite o tempo inicial:"
+            input_filter: "float"
+        
+        MDTextField:
+            id: t_final
+            hint_text: "Digite o tempo final:"
+            input_filter: "float"
+        MDLabel:
+            text: 'Condição Inicial:'
+
+        MDBoxLayout:
+            spacing: 10
+            MDTextField:
+                id: elemento1
+                hint_text: "1º Elemento:"
+                mode: "rectangle"
+                size_hint_x: .5 
+                pos_hint: {'top': 1}
+
+            MDTextField:
+                id: elemento2
+                hint_text: "2º Elemento"
+                mode: "rectangle"
+                size_hint_x: .5 
+                pos_hint: {'top': 1}
+
+        MDBoxLayout:
+            MDFlatButton:
+                text: 'Cancelar'
+                on_release: 
+                    app.root.current = app.tela_tempo_resposta
+                    app.root.transition.direction = 'right'
+
+            MDFlatButton:
+                text: 'Ok'
+                on_release:
+                    root.gerar_grafico_codicao_ini()
+                    root.clear()
+
+<Entrada_Tempo_forcada>
+    MDBoxLayout:
+        padding: 10
+        orientation: "vertical"
+
+        MDLabel:
+            text: 'Entre com os dados solicitados:'
+            font_style: 'Subtitle1'
+            halign: 'center'
+
+        MDTextField:
+            id: t_inicial
+            hint_text: "Digite o tempo inicial:"
+            input_filter: "float"
+        
+        MDTextField:
+            id: t_final
+            hint_text: "Digite o tempo final:"
+            input_filter: "float"
+
+        MDLabel:
+            text: 'Valor / Amplitude da resposta forçada:'
+            
+        MDBoxLayout:
+            spacing: 10
+            MDTextField:
+                id: elemento1
+                hint_text: "1º Elemento:"
+                mode: "rectangle"
+                size_hint_x: .5 
+                pos_hint: {'top': 1}
+
+            MDTextField:
+                id: elemento2
+                hint_text: "2º Elemento"
+                mode: "rectangle"
+                size_hint_x: .5 
+                pos_hint: {'top': 1}
+
+        MDBoxLayout:
+            MDFlatButton:
+                text: 'Cancelar'
+                on_release: 
+                    app.root.current = app.tela_tempo_resposta
+                    app.root.transition.direction = 'right'
+
+            MDFlatButton:
+                text: 'Ok'
+                on_release:
+                    root.gerar_grafico_resp_forcada()
+                    root.clear()
 
 #---Resposta de Frequência---#
 
