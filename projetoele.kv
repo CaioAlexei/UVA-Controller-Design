@@ -6,6 +6,8 @@ GerenciarTelas:
 
     Tela_Inicial:
         name: app.tela_inicio
+    Tela_Escolha_Tipo_Sistema:
+        name: app.tela_escolha_sistema
     Tela_Arquivo:
         name: app.tela_arquivo
     Tela_Menu:
@@ -57,7 +59,44 @@ GerenciarTelas:
                     text: "Iniciar"
                     line_width: 2
                     on_release:
-                        app.root.current = app.tela_arquivo
+                        app.root.current = app.tela_escolha_sistema
+
+<Tela_Escolha_Tipo_Sistema>
+    BoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: app.titulo
+            pos_hint:{'top': 1}
+
+        MDLabel:
+            text:'Escolha o seu sistema'
+            font_style: 'H5'
+            halign: 'center'
+
+        MDAnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'top'
+
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                spacing:20
+                size_hint: None, None
+
+                
+                MDRaisedButton:
+                    text:'Função de Transferência'
+                    pos_hint:{'center_x': 0.5, 'top': 1}
+                    on_release: 
+                    size_hint: None, None
+                    width: root.width*0.7    
+
+                MDRaisedButton:
+                    text:'Espaço de Estado'
+                    pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                    on_release: 
+                    size_hint: None, None
+                    width: root.width*0.7
 
 <Tela_Arquivo>
     BoxLayout:

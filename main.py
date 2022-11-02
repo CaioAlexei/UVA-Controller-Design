@@ -21,6 +21,8 @@ class GerenciarTelas(ScreenManager):
 #------------------------------------------ Telas Principais -------------------------------------------#
 class Tela_Inicial(Screen):
     pass
+class Tela_Escolha_Tipo_Sistema(Screen):
+    pass
 class Tela_Menu(Screen):
     pass
 
@@ -177,6 +179,7 @@ class Entrada_Realimentacao_Tipo(Screen):
 class Projetoele(MDApp):
     #string das telas principais e secundárias
     tela_inicio='tela_inicio'
+    tela_escolha_sistema='tela_escolha_sistema'
     tela_arquivo='tela_arquivo'        
     tela_menu='tela_menu'
     tela_representacao_sistema='tela_representacao_sistema'
