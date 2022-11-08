@@ -1,4 +1,4 @@
-#:kivy 2.0
+#:kivy 2.1
 #:import utils kivy.utils
 
 GerenciarTelas:
@@ -8,8 +8,10 @@ GerenciarTelas:
         name: app.tela_inicio
     Tela_Escolha_Tipo_Sistema:
         name: app.tela_escolha_sistema
-    Tela_Arquivo:
-        name: app.tela_arquivo
+    Tela_Arquivo_FT:
+        name: app.tela_arquivo_ft
+    Tela_Arquivo_EE:
+        name: app.tela_arquivo_ee
     Tela_Menu:
         name: app.tela_menu    
     Tela_Representacao_Sistema:
@@ -89,7 +91,9 @@ GerenciarTelas:
                     pos_hint:{'center_x': 0.5, 'top': 1}
                     on_release: 
                     size_hint: None, None
-                    width: root.width*0.7    
+                    width: root.width*0.7
+                    on_release:
+                        app.root.current = app.tela_arquivo_ft
 
                 MDRaisedButton:
                     text:'Espaço de Estado'
@@ -97,8 +101,10 @@ GerenciarTelas:
                     on_release: 
                     size_hint: None, None
                     width: root.width*0.7
+                    on_release:
+                        app.root.current = app.tela_arquivo_ee
 
-<Tela_Arquivo>
+<Tela_Arquivo_FT>
     BoxLayout:
         orientation: 'vertical'
         MDTopAppBar:
@@ -111,6 +117,10 @@ GerenciarTelas:
 
         MDLabel:
             text:root.texto1
+        MDLabel:
+            text:root.texto_A
+        MDLabel:
+            text:root.texto_E
         
         MDFloatLayout:
             MDRoundFlatIconButton:
@@ -120,7 +130,42 @@ GerenciarTelas:
                 theme_text_color: 'ContrastParentBackground'
                 theme_icon_color: 'ContrastParentBackground'
                 line_color: 0,0,0,1
-                on_release: root.caminho_arquivo()
+                on_release: root.caminho_arquivo_FT()
+            MDRoundFlatIconButton:
+                text: "Confirmar"                
+                pos_hint: {'center_x': .5, 'center_y': .3}
+                theme_text_color: 'ContrastParentBackground'
+                theme_icon_color: 'ContrastParentBackground'
+                line_color: 0,0,0,1
+                on_release: root.confirmacao()
+
+<Tela_Arquivo_EE>
+    BoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: app.titulo
+            pos_hint:{'top': 1}
+
+        MDLabel:
+            text:'Representação do Sistema'
+            font_style: 'H4'
+
+        MDLabel:
+            text:root.texto1
+        MDLabel:
+            text:root.texto_A
+        MDLabel:
+            text:root.texto_E
+        
+        MDFloatLayout:
+            MDRoundFlatIconButton:
+                text: "Selecionar arquivo"
+                icon: "folder"
+                pos_hint: {'center_x': .5, 'center_y': .6}
+                theme_text_color: 'ContrastParentBackground'
+                theme_icon_color: 'ContrastParentBackground'
+                line_color: 0,0,0,1
+                on_release: root.caminho_arquivo_EE()
             MDRoundFlatIconButton:
                 text: "Confirmar"                
                 pos_hint: {'center_x': .5, 'center_y': .3}

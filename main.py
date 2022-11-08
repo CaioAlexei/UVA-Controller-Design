@@ -10,14 +10,11 @@ from kivymd.toast import toast
 from kivymd.uix.button import MDFlatButton
 
 import arquivo
-<<<<<<< HEAD
 from blocos import bloco3, eeatt, ftatt
 
-=======
->>>>>>> ca1ca37b1994d476c43c34f6cdca95f283d9b317
 #Globals
 import Global
-from blocos import bloco2, bloco3
+
 
 
 #----------------------------------------- Gerenciador de Telas ----------------------------------------#
@@ -30,57 +27,21 @@ class Tela_Escolha_Tipo_Sistema(Screen):
     pass
 class Tela_Menu(Screen):
     pass
-class Tela_Escolher_Tipo(Screen):
+
 class Tela_Arquivo(Screen):
-    caminho_arquivo=''
-    sys1=0
-    sys2=0
-    error='nenhum'  
     
-    texto1=StringProperty('Anexe o arquivo .txt com as matrizes')
         
-    def caminho_arquivo_FT(self, *args):
-        root = Tk()
-        root.withdraw()
-        root.directory = filedialog.askopenfilename(filetypes=(("text files","txt"),))
-        print (root.directory)
-        
-        Global.caminho_arquivo=root.directory        
-        Global.sys1,Global.sys2,Global.error,Global.atencao = ftatt.dados_finais(Global.caminho_arquivo)
-        if(Global.error !='sem erro'):
-            Global.texto1=Global.error
-        print(Global.sys1)
-        print(Global.sys2)
-        print(Global.error)
-        
-    def caminho_arquivo_EE(self, *args):
-    root = Tk()
-    root.withdraw()
-    root.directory = filedialog.askopenfilename(filetypes=(("text files","txt"),))
-    print (root.directory)
     
-    Global.caminho_arquivo=root.directory        
-    Global.sys1,Global.sys2,Global.error,Global.atencao = eeatt.dados_finais(Global.caminho_arquivo)
-    if(Global.error !='sem erro'):
-        Global.texto1=Global.error
-    print(Global.sys1)
-    print(Global.sys2)
-    print(Global.error)
+        
+    
         
 
     
 
-    def confirmacao(self,*args):
-        
-        if(Global.error=='nenhum'):
-            self.manager.current=Projetoele.tela_menu
+    
     
 
-    def confirmacao(self,*args):
-        
-        if(Global.error=='nenhum'):
-            self.manager.current=Projetoele.tela_menu
-            
+    
             
     pass
 
@@ -102,6 +63,75 @@ class Tela_Digitalizacao(Screen):
     pass
 
 # ----------------------------------------- Telas_Secundárias ------------------------------------------- #
+
+#--- Escolha Tipo Sistema ---#
+
+class Tela_Arquivo_FT(Screen):
+    caminho_arquivo=''
+    sys1=0
+    sys2=0
+    error='nenhum'  
+    
+    
+    texto1=StringProperty('Anexe o arquivo .txt com as matrizes.')
+    texto_A=StringProperty('Nenhuma Atenção.')
+    texto_E=StringProperty('Nenhum Erro.')
+    def caminho_arquivo_FT(self, *args):
+        root = Tk()
+        root.withdraw()
+        root.directory = filedialog.askopenfilename(filetypes=(("text files","txt"),))
+        print (root.directory)
+        self.texto1=root.directory
+        
+        Global.caminho_arquivo=root.directory        
+        Global.sys1,Global.sys2,Global.error,Global.atencao = ftatt.dados_finais_FT(Global.caminho_arquivo)
+        if(Global.error !='sem erro'):
+            Global.texto1=Global.error
+        print(Global.sys1)
+        print(Global.sys2)
+        print(Global.error)
+        self.texto_A=Global.atencao
+        self.texto_E=Global.error
+        print(Global.atencao)
+        
+
+    def confirmacao(self,*args):
+    
+        if(Global.error=='sem erro'):
+            self.manager.current=Projetoele.tela_menu   
+    pass
+
+class Tela_Arquivo_EE(Screen):
+    caminho_arquivo=''
+    sys1=0
+    sys2=0
+    error='nenhum'  
+    
+    texto1=StringProperty('Anexe o arquivo .txt com as matrizes.')
+    texto_A=StringProperty('Nenhuma Atenção.')
+    texto_E=StringProperty('Nenhum Erro.')
+    def caminho_arquivo_EE(self, *args):
+        root = Tk()
+        root.withdraw()
+        root.directory = filedialog.askopenfilename(filetypes=(("text files","txt"),))
+        print (root.directory)
+        
+        Global.caminho_arquivo=root.directory        
+        Global.sys1,Global.sys2,Global.atencao_EE_RA,Global.atencao_EE_DF,Global.error = eeatt.dados_finais_EE(Global.caminho_arquivo)
+        if(Global.error !='sem erro'):
+            Global.texto1=Global.error
+        print(Global.sys1)
+        print(Global.sys2)
+        print(Global.error)
+        print(Global.atencao)
+        self.texto1=root.directory
+        self.texto_A=Global.atencao_EE_DF
+        self.texto_E=Global.error
+    def confirmacao(self,*args):
+        
+        if(Global.error=='sem erro'):
+            self.manager.current=Projetoele.tela_menu
+    pass    
 
 #---Tempo Resposta---#
 
@@ -205,7 +235,8 @@ class Projetoele(MDApp):
     #string das telas principais e secundárias
     tela_inicio='tela_inicio'
     tela_escolha_sistema='tela_escolha_sistema'
-    tela_arquivo='tela_arquivo'        
+    tela_arquivo_ft='tela_arquivo_ft'
+    tela_arquivo_ee='tela_arquivo_ee'        
     tela_menu='tela_menu'
     tela_representacao_sistema='tela_representacao_sistema'
     tela_tempo_resposta='tela_tempo_resposta'
