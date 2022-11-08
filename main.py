@@ -10,11 +10,9 @@ from kivymd.toast import toast
 from kivymd.uix.button import MDFlatButton
 
 import arquivo
-from blocos import bloco3, eeatt, ftatt
-
 #Globals
 import Global
-
+from blocos import bloco2, bloco3, eeatt, ftatt
 
 
 #----------------------------------------- Gerenciador de Telas ----------------------------------------#
