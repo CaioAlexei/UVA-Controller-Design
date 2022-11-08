@@ -11,7 +11,7 @@ from tkinter import filedialog
 from tkinter import *
 
 import arquivo
-from blocos import bloco3
+from blocos import bloco3, eeatt, ftatt
 
 #Globals
 import Global
@@ -25,7 +25,7 @@ class Tela_Inicial(Screen):
     pass
 class Tela_Menu(Screen):
     pass
-
+class Tela_Escolher_Tipo(Screen):
 class Tela_Arquivo(Screen):
     caminho_arquivo=''
     sys1=0
@@ -34,21 +34,41 @@ class Tela_Arquivo(Screen):
     
     texto1=StringProperty('Anexe o arquivo .txt com as matrizes')
         
-    def caminho_arquivo(self, *args):
+    def caminho_arquivo_FT(self, *args):
         root = Tk()
         root.withdraw()
         root.directory = filedialog.askopenfilename(filetypes=(("text files","txt"),))
         print (root.directory)
         
         Global.caminho_arquivo=root.directory        
-        Global.sys1,Global.sys2,Global.error = arquivo.dados_finais(Global.caminho_arquivo)
+        Global.sys1,Global.sys2,Global.error,Global.atencao = ftatt.dados_finais(Global.caminho_arquivo)
         if(Global.error !='sem erro'):
             Global.texto1=Global.error
         print(Global.sys1)
         print(Global.sys2)
         print(Global.error)
         
+    def caminho_arquivo_EE(self, *args):
+    root = Tk()
+    root.withdraw()
+    root.directory = filedialog.askopenfilename(filetypes=(("text files","txt"),))
+    print (root.directory)
+    
+    Global.caminho_arquivo=root.directory        
+    Global.sys1,Global.sys2,Global.error,Global.atencao = eeatt.dados_finais(Global.caminho_arquivo)
+    if(Global.error !='sem erro'):
+        Global.texto1=Global.error
+    print(Global.sys1)
+    print(Global.sys2)
+    print(Global.error)
+        
 
+    
+
+    def confirmacao(self,*args):
+        
+        if(Global.error=='nenhum'):
+            self.manager.current=Projetoele.tela_menu
     
 
     def confirmacao(self,*args):

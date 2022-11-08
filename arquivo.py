@@ -112,7 +112,7 @@ def recebendo_arquivo(caminho):
 # EXIBINDO O RESULTADO!!:
 #Funcao de Transferência
 
-def dados_finais(x):
+def dados_finais_FT(x):
     funcao, verificador,erro = recebendo_arquivo(x)
     if(erro !='nenhum'):
       sys1=0
