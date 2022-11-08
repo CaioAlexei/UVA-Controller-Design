@@ -3,34 +3,34 @@ import matplotlib.pyplot as plt
 import numpy as np
 from control.matlab import *
 
-P = ctl.tf([0, 4], [1, 2, 3])# Função de transferencia
-P_ss = ctl.tf2ss(P) #transformar função de transferencia em espaço estado
-P_tf = ctl.ss2tf(P_ss)# transformar espaço estado para função de transferencia
+# P = ctl.tf([0, 4], [1, 2, 3])# Função de transferencia
+# P_ss = ctl.tf2ss(P) #transformar função de transferencia em espaço estado
+# P_tf = ctl.ss2tf(P_ss)# transformar espaço estado para função de transferencia
 
-print(P)
+# print(P)
 
-print(P_ss)
+# print(P_ss)
 
-print(P_tf)
+# print(P_tf)
 
 
-def resp_impulso_unitario(m, n):
+def resp_impulso_unitario(sys, m, n):
   #Resposta ao Impulso Unitario
   print('\nResposta ao Impulso Unitario\n')
   T = np.arange(m, n, 0.01)
-  t1, y1 = impulse(P, T)
+  t1, y1 = impulse(sys, T)
   
   plotar_grafico(t1, y1, 'Resposta ao Impulso Unitário')
 
-def resp_degrau_unitario(m, n):
+def resp_degrau_unitario(sys, m, n):
   #Resposta ao Degral Unitario
   print('Resposta ao Degrau Unitário\n')
   T = np.arange(m, n, 0.01)
-  t1, y1 = ctl.step_response(P, T)
+  t1, y1 = ctl.step_response(sys, T)
   
   plotar_grafico(t1, y1, 'Resposta ao Degrau Unitário')
   
-def resp_condicao_inicial(m, k, n):
+def resp_condicao_inicial(sys, m, k, n):
   #Resposta com uma condição inicial
   print('Resposta com uma condição inicial\n')
   
@@ -38,11 +38,11 @@ def resp_condicao_inicial(m, k, n):
   
   T = np.arange(m, k, 0.01)
   u = np.sin(T)
-  y1, t1 = initial(P_ss, T, n)
+  y1, t1 = initial(sys, T, n)
   
   plotar_grafico(t1, y1, 'Resposta com uma condição inicial')
 
-def resp_forcada(m, k, n):
+def resp_forcada(sys, m, k, n):
   #Resposta Forçada
   print('Resposta Resposta Forçada\n')
 
@@ -51,7 +51,7 @@ def resp_forcada(m, k, n):
   T = np.arange(m, k, 0.01)
   U = np.sin(5*T)
  
-  y1, t1, x0 = lsim(P_ss, U, T, n)
+  y1, t1, x0 = lsim(sys, U, T, n)
   
   plotar_grafico(t1, y1, 'Resposta Resposta Forçada')
 

@@ -89,7 +89,6 @@ GerenciarTelas:
                 MDRaisedButton:
                     text:'Função de Transferência'
                     pos_hint:{'center_x': 0.5, 'top': 1}
-                    on_release: 
                     size_hint: None, None
                     width: root.width*0.7
                     on_release:
@@ -456,21 +455,27 @@ GerenciarTelas:
                         size_hint: None, None
                         width: root.width*0.8
                         on_release: 
-                            app.root.current = 'entr_func_transf'
+                            root.gerar_mapa_polos_zeros()
                             
+                    MDRaisedButton:
+                        text: "Lugar das raízes"
+                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                        size_hint: None, None
+                        width: root.width*0.8
+                        on_release: root.gerar_root_locus()
+                    
                     MDRaisedButton:
                         text: "Margem de Estabilidade"
                         pos_hint:{'center_x': 0.5, 'center_y': 0.5}
                         size_hint: None, None
                         width: root.width*0.8
-                        on_release: app.root.current = 'entr_func_transf'
-                    
-                    
+                        on_release: root.gerar_margem_estabilidade()
             
         MDIconButton:
             icon: 'arrow-left'
             on_release:
                 app.root.current = app.tela_menu
+
 <Tela_Design_Controle>
     MDBoxLayout:
         orientation: 'vertical'

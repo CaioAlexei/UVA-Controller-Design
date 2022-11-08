@@ -8,8 +8,10 @@ def diagrama_bode(freq_min, freq_max,sys):
     #sys = ctl.tf([1, 2, 3, 4], [1, 2]) 
 
     # Gráfico 1
-    #mag, phase, omega = ctl.bode_plot(sys, dB=True)
+    mag, phase, omega = ctl.bode_plot(sys, dB=True)
 
+    plt.show()
+    
     #Grafico 2
     ctl.bode_plot(sys, omega=[freq_min, freq_max], dB=True) 
 
@@ -17,9 +19,7 @@ def diagrama_bode(freq_min, freq_max,sys):
     plt.show()
 
 
-def diagrama_nyquist():
-    sys = ctl.ss([[1, -2], [3, -4]], [[5], [7]], [[6, 8]], [[9]])
-    sys2 = ctl.tf( [ 1,2,3,4],[1,2,3])
+def diagrama_nyquist(sys):
     ctl.nyquist_plot(sys)
     plt.show()
 

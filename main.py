@@ -8,11 +8,12 @@ from kivy.uix.screenmanager import Screen, ScreenManager
 from kivymd.app import MDApp
 from kivymd.toast import toast
 from kivymd.uix.button import MDFlatButton
+from kivymd.uix.dialog import MDDialog
 
 import arquivo
 #Globals
 import Global
-from blocos import bloco2, bloco3, eeatt, ftatt
+from blocos import bloco2, bloco3, bloco5, eeatt, ftatt
 
 
 #----------------------------------------- Gerenciador de Telas ----------------------------------------#
@@ -26,21 +27,7 @@ class Tela_Escolha_Tipo_Sistema(Screen):
 class Tela_Menu(Screen):
     pass
 
-class Tela_Arquivo(Screen):
-    
-        
-    
-        
-    
-        
-
-    
-
-    
-    
-
-    
-            
+class Tela_Arquivo(Screen):    
     pass
 
 class Tela_Representacao_Sistema(Screen):
@@ -49,12 +36,58 @@ class Tela_Tempo_Resposta(Screen):
     pass        
 class Tela_Resposta_Frequencia(Screen):
     def gerar_grafico_nyquist(self):
-        bloco3.diagrama_nyquist()
+        bloco3.diagrama_nyquist(Global.sys1)
         
 class Tela_Diagrama_Bloco(Screen):
     pass
 class Tela_Estabilidade(Screen):
-    pass
+    def gerar_mapa_polos_zeros(self):
+        polos, zeros = bloco5.mapa_polos_zeros(Global.sys1)
+        self.dialog = MDDialog(
+            title = "Polos e Zeros", 
+            text= f"Sistema:\n{Global.sys1}\nPolos:\n{polos}\nZeros:\n{zeros}",
+            buttons=[MDFlatButton(
+                text="Ok",
+                on_release = self.fechar
+                )
+            ])
+        
+        self.dialog.open()
+
+    def gerar_root_locus(self):
+        self.dialog = MDDialog(
+            title = "ERROR", 
+            text= "Sistema impróprio para Root Locus.",
+            buttons=[MDFlatButton(
+                text="Ok",
+                on_release = self.fechar
+                )
+            ])
+        if(Global.apto_root_locus):
+            bloco5.lugar_raizes(Global.sys1)
+        else:
+            self.dialog.open()
+
+    def gerar_margem_estabilidade(self):
+        marg_mag, marg_fase, freq_mag, freq_fase = bloco5.margem_estabilidade(Global.sys1)
+        self.dialog = MDDialog( 
+            text= """
+                Sistema: {}\n
+                Margem de magnitude (dB): {:.4f}\n
+                Margem de fase (graus): {:.4f}\n
+                Frequência de cruzamento de magnitude (rad/s): {:.4f}\n
+                requência de cruzamento de fase (rad/s): {:.4f}
+            """.format(Global.sys1, marg_mag, marg_fase, freq_mag, freq_fase),  
+            buttons=[MDFlatButton(
+                text="Ok",
+                on_release = self.fechar
+                )
+            ])
+        self.dialog.open()
+    
+    def fechar(self, obj):
+        self.dialog.dismiss()
+
 class Tela_Design_Controle(Screen):
     pass
 class Tela_Digitalizacao(Screen):
@@ -82,7 +115,7 @@ class Tela_Arquivo_FT(Screen):
         self.texto1=root.directory
         
         Global.caminho_arquivo=root.directory        
-        Global.sys1,Global.sys2,Global.error,Global.atencao = ftatt.dados_finais_FT(Global.caminho_arquivo)
+        Global.sys1,Global.sys2,Global.error,Global.atencao, Global.apto_root_locus = ftatt.dados_finais_FT(Global.caminho_arquivo)
         if(Global.error !='sem erro'):
             Global.texto1=Global.error
         print(Global.sys1)
@@ -91,6 +124,7 @@ class Tela_Arquivo_FT(Screen):
         self.texto_A=Global.atencao
         self.texto_E=Global.error
         print(Global.atencao)
+        print("Apto para root locus? ", Global.apto_root_locus)
         
 
     def confirmacao(self,*args):
@@ -141,7 +175,7 @@ class Entrada_Tempo_impulso_unit(Screen):
         inicial = float(self.ids.t_inicial.text)
         final = float(self.ids.t_final.text)
 
-        bloco2.resp_impulso_unitario(inicial, final)
+        bloco2.resp_impulso_unitario(Global.sys1, inicial, final)
     
     def clear(self):
         self.ids.t_inicial.text = ""
@@ -155,7 +189,7 @@ class Entrada_Tempo_degrau_unit(Screen):
         inicial = float(self.ids.t_inicial.text)
         final = float(self.ids.t_final.text)
 
-        bloco2.resp_degrau_unitario(inicial, final)
+        bloco2.resp_degrau_unitario(Global.sys1, inicial, final)
 
     def clear(self):
         self.ids.t_inicial.text = ""
@@ -172,7 +206,7 @@ class Entrada_Tempo_condicao_ini(Screen):
 
         vetor = list((int(self.ids.elemento1.text), int(self.ids.elemento2.text)))
 
-        bloco2.resp_condicao_inicial(inicial, final, vetor)
+        bloco2.resp_condicao_inicial(Global.sys1, inicial, final, vetor)
         
     def clear(self):
         self.ids.t_inicial.text = ""
@@ -191,7 +225,7 @@ class Entrada_Tempo_forcada(Screen):
 
         vetor = list((int(self.ids.elemento1.text), int(self.ids.elemento2.text)))
 
-        bloco2.resp_forcada(inicial, final, vetor)
+        bloco2.resp_forcada(Global.sys1, inicial, final, vetor)
 
 
     def clear(self):
