@@ -1,3 +1,6 @@
+from tkinter import *
+from tkinter import filedialog
+
 from kivy.core.window import Window
 from kivy.properties import StringProperty
 from kivy.uix.boxlayout import BoxLayout
@@ -6,22 +9,24 @@ from kivymd.app import MDApp
 from kivymd.toast import toast
 from kivymd.uix.button import MDFlatButton
 
-
-from tkinter import filedialog
-from tkinter import *
-
 import arquivo
+<<<<<<< HEAD
 from blocos import bloco3, eeatt, ftatt
 
+=======
+>>>>>>> ca1ca37b1994d476c43c34f6cdca95f283d9b317
 #Globals
 import Global
+from blocos import bloco2, bloco3
 
-'''ola'''
+
 #----------------------------------------- Gerenciador de Telas ----------------------------------------#
 class GerenciarTelas(ScreenManager):
     pass
 #------------------------------------------ Telas Principais -------------------------------------------#
 class Tela_Inicial(Screen):
+    pass
+class Tela_Escolha_Tipo_Sistema(Screen):
     pass
 class Tela_Menu(Screen):
     pass
@@ -84,12 +89,14 @@ class Tela_Representacao_Sistema(Screen):
 class Tela_Tempo_Resposta(Screen):
     pass        
 class Tela_Resposta_Frequencia(Screen):
-    pass
+    def gerar_grafico_nyquist(self):
+        bloco3.diagrama_nyquist()
+        
 class Tela_Diagrama_Bloco(Screen):
     pass
 class Tela_Estabilidade(Screen):
     pass
-class Tela_Desing_Controle(Screen):
+class Tela_Design_Controle(Screen):
     pass
 class Tela_Digitalizacao(Screen):
     pass
@@ -98,9 +105,73 @@ class Tela_Digitalizacao(Screen):
 
 #---Tempo Resposta---#
 
-class Entrada_Tempo(Screen):
-    pass
+class Entrada_Tempo_impulso_unit(Screen):
+    def gerar_grafico_imp_unit(self):
+        if(self.ids.t_inicial.text == "" or self.ids.t_final.text == ""):
+            return
 
+        inicial = float(self.ids.t_inicial.text)
+        final = float(self.ids.t_final.text)
+
+        bloco2.resp_impulso_unitario(inicial, final)
+    
+    def clear(self):
+        self.ids.t_inicial.text = ""
+        self.ids.t_final.text = ""
+
+class Entrada_Tempo_degrau_unit(Screen):
+    def gerar_grafico_deg_unit(self):
+        if(self.ids.t_inicial.text == "" or self.ids.t_final.text == ""):
+            return
+        
+        inicial = float(self.ids.t_inicial.text)
+        final = float(self.ids.t_final.text)
+
+        bloco2.resp_degrau_unitario(inicial, final)
+
+    def clear(self):
+        self.ids.t_inicial.text = ""
+        self.ids.t_final.text = ""
+
+class Entrada_Tempo_condicao_ini(Screen):
+    def gerar_grafico_codicao_ini(self):
+        if(self.ids.t_inicial.text == "" or self.ids.t_final.text == "" or
+        self.ids.elemento1.text == "" or self.ids.elemento2.text == ""):
+            return
+
+        inicial = float(self.ids.t_inicial.text)
+        final = float(self.ids.t_final.text)
+
+        vetor = list((int(self.ids.elemento1.text), int(self.ids.elemento2.text)))
+
+        bloco2.resp_condicao_inicial(inicial, final, vetor)
+        
+    def clear(self):
+        self.ids.t_inicial.text = ""
+        self.ids.t_final.text = ""
+        self.ids.elemento1.text = ""
+        self.ids.elemento2.text = ""
+
+class Entrada_Tempo_forcada(Screen):
+    def gerar_grafico_resp_forcada(self):
+        if(self.ids.t_inicial.text == "" or self.ids.t_final.text == "" or
+        self.ids.elemento1.text == "" or self.ids.elemento2.text == ""):
+            return
+
+        inicial = float(self.ids.t_inicial.text)
+        final = float(self.ids.t_final.text)
+
+        vetor = list((int(self.ids.elemento1.text), int(self.ids.elemento2.text)))
+
+        bloco2.resp_forcada(inicial, final, vetor)
+
+
+    def clear(self):
+        self.ids.t_inicial.text = ""
+        self.ids.t_final.text = ""
+        self.ids.elemento1.text = ""
+        self.ids.elemento2.text = ""
+    
 
 #---Resposta de Frequência---#
 
@@ -112,8 +183,8 @@ class Entrada_Tempo_Ini_Fim(Screen):
         if(self.ids.fmax.text == "" or self.ids.fmin.text == ""):
             return
 
-        f_max = int(self.ids.fmax.text)
-        f_min = int(self.ids.fmin.text)
+        f_max = float(self.ids.fmax.text)
+        f_min = float(self.ids.fmin.text)
         print(Global.sys1)
         bloco3.diagrama_bode(f_max, f_min,Global.sys1)
         
@@ -133,6 +204,7 @@ class Entrada_Realimentacao_Tipo(Screen):
 class Projetoele(MDApp):
     #string das telas principais e secundárias
     tela_inicio='tela_inicio'
+    tela_escolha_sistema='tela_escolha_sistema'
     tela_arquivo='tela_arquivo'        
     tela_menu='tela_menu'
     tela_representacao_sistema='tela_representacao_sistema'
@@ -140,7 +212,7 @@ class Projetoele(MDApp):
     tela_resposta_frequencia='tela_resposta_frequencia'
     tela_diagrama_bloco='tela_diagrama_bloco'
     tela_estabilidade='tela_estabilidade'
-    tela_desing_controle='tela_desing_controle'
+    tela_design_controle='tela_design_controle'
     tela_digitalizacao='tela_digitalizacao'
 
     #titulo do app
