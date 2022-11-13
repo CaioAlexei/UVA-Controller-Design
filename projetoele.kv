@@ -708,23 +708,14 @@ GerenciarTelas:
             input_filter: "float"
 
         MDLabel:
-            text: 'Valor / Amplitude da resposta forçada:'
+            text: 'Digite o valor de amplitude da senoide:'
             
-        MDBoxLayout:
-            spacing: 10
-            MDTextField:
-                id: elemento1
-                hint_text: "1º Elemento:"
-                mode: "rectangle"
-                size_hint_x: .5 
-                pos_hint: {'top': 1}
+        MDTextField:
+            id: amplitude
+            hint_text: "Amplitude"
+            input_filter: "float"
+            mode: "rectangle"
 
-            MDTextField:
-                id: elemento2
-                hint_text: "2º Elemento"
-                mode: "rectangle"
-                size_hint_x: .5 
-                pos_hint: {'top': 1}
 
         MDBoxLayout:
             MDFlatButton:
@@ -736,7 +727,7 @@ GerenciarTelas:
             MDFlatButton:
                 text: 'Ok'
                 on_release:
-                    root.gerar_grafico_resp_forcada()
+                    root.gerar_grafico_resp_senoidal()
                     root.clear()
 
 #---Resposta de Frequência---#

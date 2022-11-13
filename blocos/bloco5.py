@@ -13,16 +13,9 @@ def mapa_polos_zeros(sys1):
     ctl.pzmap(sys1, plot=True, title='Mapa de Polos e Zeros')
     
     #Exibir para o Usuário:
-    #Sistema:
-    print(sys1)
-    #Polos:
-    print("Polos:")
-    for i in range(len(polos)):
-        print(polos[i])
-    #Zeros:
-    print("\nZeros:")
-    for i in range(len(zeros)):
-        print(zeros[i])
+    #Sistema
+    #Polos
+    #Zeros
     #Gráfico:
     plt.show()
 
@@ -37,12 +30,7 @@ def margem_estabilidade(sys1):
     """
     #Essses "_", são pois, a função ctl.stability_margins retorna ao mesmo tempo: gm,pm,sm,wpc,wgc,wms . Onde: sm = margem de estabilidade; wms = Frequencia de margem de estabilidade. Como não se deseja esses, coloca-se o "_".
     gm, pm, _, wpc, wgc, _ = ctl.stability_margins(sys1)
-    #Exibir para usuário:
-    print(sys1)
-    print("Margem de magnitude (dB): %.4f \n" % (20 * np.log10(gm)))
-    print("Margem de fase (graus) : %.4f \n" % pm)
-    print("Frequência de cruzamento de magnitude (rad/s): %.4f \n" % wgc)
-    print("Frequência de cruzamento de fase (rad/s): %.4f \n" % wpc)
+   
     marg_mag = (20 * np.log10(gm))
     
     return marg_mag, pm, wgc, wpc
@@ -56,7 +44,5 @@ def lugar_raizes(sys1):
 
     #Exibir para o Usuário:
     #Sistema:
-    print(sys1)
-
     #Gráfico:
     plt.show()

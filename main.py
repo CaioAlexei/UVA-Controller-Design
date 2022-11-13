@@ -1,12 +1,15 @@
+import os
+import sys
 from tkinter import *
 from tkinter import filedialog
 
+import numpy as np
 from kivy.core.window import Window
+from kivy.lang.builder import Builder
 from kivy.properties import StringProperty
-from kivy.uix.boxlayout import BoxLayout
+from kivy.resources import resource_add_path, resource_find
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivymd.app import MDApp
-from kivymd.toast import toast
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
 
@@ -53,20 +56,12 @@ class Tela_Estabilidade(Screen):
             ])
         
         self.dialog.open()
-
+    
     def gerar_root_locus(self):
-        self.dialog = MDDialog(
-            title = "ERROR", 
-            text= "Sistema impróprio para Root Locus.",
-            buttons=[MDFlatButton(
-                text="Ok",
-                on_release = self.fechar
-                )
-            ])
         if(Global.apto_root_locus):
             bloco5.lugar_raizes(Global.sys1)
         else:
-            self.dialog.open()
+            abrir_popup(self, "Sistema impróprio para Root Locus.")
 
     def gerar_margem_estabilidade(self):
         marg_mag, marg_fase, freq_mag, freq_fase = bloco5.margem_estabilidade(Global.sys1)
@@ -167,29 +162,68 @@ class Tela_Arquivo_EE(Screen):
 
 #---Tempo Resposta---#
 
+def FuncaoTempo(t_final, t_inicial=0.0, X0=0.0):
+    #X0 = []
+    aux = 0
+    erro = 'sem erro'
+    #Se a pessoa não quiser definir o tempo, basta deixar a variável em branco.
+    if (t_inicial != ''):
+        t_inicial = float(t_inicial)
+    else:
+        aux = aux + 1
+    print(t_inicial)
+
+    if t_final != '':
+        t_final = float(t_final)
+    else:
+        aux = aux + 1
+    print(t_final)
+
+    #Condição Inicial (X0):
+    if X0 != '':
+        X0 = float(X0)
+    else:
+        X0 = 0.0
+
+    #Criando vetor de tempo_inicial a tempo_final, com passo de 0.01, para plotagem de gráfico.
+    T = np.arange(t_inicial, t_final, 0.01)
+    return (T, X0, aux)
+
+#TODO: centralizar os popups utilizando essa função
+def abrir_popup(self, msg, titl='ERROR'):
+    self.dialog = MDDialog(
+        title = titl, 
+        text= msg,
+        buttons=[MDFlatButton(
+            text="Ok",
+            on_release = self.fechar
+            )
+        ]
+    )
+    self.dialog.open()
+
 class Entrada_Tempo_impulso_unit(Screen):
+    
     def gerar_grafico_imp_unit(self):
-        if(self.ids.t_inicial.text == "" or self.ids.t_final.text == ""):
-            return
+        T, X0 , aux = FuncaoTempo(self.ids.t_final.text, self.ids.t_inicial.text)
 
-        inicial = float(self.ids.t_inicial.text)
-        final = float(self.ids.t_final.text)
-
-        bloco2.resp_impulso_unitario(Global.sys1, inicial, final)
+        try:
+            bloco2.resp_impulso_unitario(Global.sys1, T, X0)
+        except Exception as e:
+            abrir_popup(self, str(e))
     
     def clear(self):
         self.ids.t_inicial.text = ""
         self.ids.t_final.text = ""
 
+    def fechar(self, obj):
+        self.dialog.dismiss()
+
 class Entrada_Tempo_degrau_unit(Screen):
     def gerar_grafico_deg_unit(self):
-        if(self.ids.t_inicial.text == "" or self.ids.t_final.text == ""):
-            return
-        
-        inicial = float(self.ids.t_inicial.text)
-        final = float(self.ids.t_final.text)
+        T, X0 , aux = FuncaoTempo(self.ids.t_final.text, self.ids.t_inicial.text)
 
-        bloco2.resp_degrau_unitario(Global.sys1, inicial, final)
+        bloco2.resp_degrau_unitario(Global.sys1, T)
 
     def clear(self):
         self.ids.t_inicial.text = ""
@@ -197,16 +231,9 @@ class Entrada_Tempo_degrau_unit(Screen):
 
 class Entrada_Tempo_condicao_ini(Screen):
     def gerar_grafico_codicao_ini(self):
-        if(self.ids.t_inicial.text == "" or self.ids.t_final.text == "" or
-        self.ids.elemento1.text == "" or self.ids.elemento2.text == ""):
-            return
+        T, X0, aux = FuncaoTempo(self.ids.t_final.text, self.ids.t_inicial.text)
 
-        inicial = float(self.ids.t_inicial.text)
-        final = float(self.ids.t_final.text)
-
-        vetor = list((int(self.ids.elemento1.text), int(self.ids.elemento2.text)))
-
-        bloco2.resp_condicao_inicial(Global.sys1, inicial, final, vetor)
+        bloco2.resp_condicao_inicial(Global.sys1, T, X0)
         
     def clear(self):
         self.ids.t_inicial.text = ""
@@ -215,24 +242,22 @@ class Entrada_Tempo_condicao_ini(Screen):
         self.ids.elemento2.text = ""
 
 class Entrada_Tempo_forcada(Screen):
-    def gerar_grafico_resp_forcada(self):
-        if(self.ids.t_inicial.text == "" or self.ids.t_final.text == "" or
-        self.ids.elemento1.text == "" or self.ids.elemento2.text == ""):
-            return
+    #TODO: refazer para o novo bloco2
+    def gerar_grafico_resp_senoidal(self):
 
-        inicial = float(self.ids.t_inicial.text)
-        final = float(self.ids.t_final.text)
-
-        vetor = list((int(self.ids.elemento1.text), int(self.ids.elemento2.text)))
-
-        bloco2.resp_forcada(Global.sys1, inicial, final, vetor)
-
+        T, X0, aux = FuncaoTempo(self.ids.t_final.text, self.ids.t_inicial.text)
+        try:
+            bloco2.resp_senoidal(Global.sys1, T, X0, float(self.ids.amplitude.text))
+        except Exception as e:
+            abrir_popup(self, str(e))
 
     def clear(self):
         self.ids.t_inicial.text = ""
         self.ids.t_final.text = ""
-        self.ids.elemento1.text = ""
-        self.ids.elemento2.text = ""
+        self.ids.amplitude.text = ""
+
+    def fechar(self, obj):
+        self.dialog.dismiss()
     
 
 #---Resposta de Frequência---#
@@ -284,6 +309,10 @@ class Projetoele(MDApp):
     def build(self):
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Yellow" ##FFEB3B
+        return Builder.load_file('projetoele.kv')
 
+if __name__ == '__main__':
+    if hasattr(sys, '_MEIPASS'):
+        resource_add_path(os.path.join(sys._MEIPASS))
+    Projetoele().run()
 
-Projetoele().run()
