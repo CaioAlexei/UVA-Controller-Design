@@ -1,6 +1,6 @@
-import control as ctl
+import os  # Biblioteca para verificar se o arquivo é vazio ou não
 
-import os  #Biblioteca para verificar se o arquivo é vazio ou não
+import control as ctl
 
 #Analisando se a FT pode ser utilizada ou não (Tratamento das Entradas):
 
@@ -12,6 +12,7 @@ def analisando_funcao(funcao, verificador):
   den2 = 0
   aux = 1
   erro3 = 'sem erro'
+  apto_root_locus = True
   #Criando Auxiliar pra 2 entradas:
 
   if verificador == 1:
@@ -49,12 +50,13 @@ def analisando_funcao(funcao, verificador):
   #Exibir ATENÇÃO PARA O USUÁRIO!! NÃO ENCERRA O PROGRAMA!:
   if len(num1) > len(den1):
     atencao3 = "ATENÇÃO!!! Para o SISTEMA 1, o número de zeros (z)  é maior que o número de polos (p) ! Para z > p, o sistema não pode ser modelado fisicamente, podendo gerar inconsistência nos resultados de análise!!"
+    apto_root_locus = False
 
   if len(num2) > len(den2):
     atencao3 += " ATENÇÃO!!! Para o SISTEMA 2, o número de zeros (z)  é maior que o número de polos (p)! Para z > p, o sistema não pode ser modelado fisicamente, podendo gerar inconsistência nos resultados de análise!!"
 
   print(atencao3)
-  return (num1, den1, num2, den2, erro3, atencao3)
+  return (num1, den1, num2, den2, erro3, atencao3, apto_root_locus)
 
 
 #_______________________________________
@@ -127,11 +129,11 @@ def dados_finais_FT(x):
   funcao, verificador, erro2, atencao2 = recebendo_arquivo(x)
 
   if (erro2 == 'sem erro'):
-    num1, den1, num2, den2, erro4, atencao4 = analisando_funcao(
+    num1, den1, num2, den2, erro4, atencao4, apto_root_locus = analisando_funcao(
       funcao, verificador)
 
   else:
-    return (sys1, sys2, erro2, atencao2)
+    return (sys1, sys2, erro2, atencao2, apto_root_locus)
 
   #Se o numero de linhas no arquivo igual ou menor que 2:
 
@@ -141,7 +143,7 @@ def dados_finais_FT(x):
       sys1 = ctl.tf(num1, den1)
       print("Sistema 1: \n")
       print(sys1)
-      return (sys1, sys2, erro4, atencao4)
+      return (sys1, sys2, erro4, atencao4, apto_root_locus)
     #Se for maior que 2 linhas, indica que tem outro sistema. Logo:
     else:
       sys1 = ctl.tf(num1, den1)
@@ -150,10 +152,10 @@ def dados_finais_FT(x):
       print(sys1)
       print("Sistema 2: \n")
       print(sys2)
-      return (sys1, sys2, erro4, atencao4)
+      return (sys1, sys2, erro4, atencao4, apto_root_locus)
   else:
 
-    return (sys1, sys2, erro4, atencao4)
+    return (sys1, sys2, erro4, atencao4, apto_root_locus)
 
 
 
