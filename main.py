@@ -9,7 +9,7 @@ from kivymd.app import MDApp
 from kivymd.toast import toast
 from kivymd.uix.button import MDFlatButton
 
-import arquivo
+
 from blocos import bloco3, eeatt, ftatt
 
 #Globals
