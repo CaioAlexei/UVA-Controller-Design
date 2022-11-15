@@ -41,7 +41,7 @@ GerenciarTelas:
     Entrada_Tempo_Ini_Fim:
         name: 'entr_bode'
     Entrada_Realimentacao_Tipo:
-        name: 'entr_rea_tipo'
+        name: app.tela_resposta_realimentacao
 
 # --------------------------------------- Telas Primárias --------------------------------------------- #
 
@@ -527,22 +527,22 @@ GerenciarTelas:
                         pos_hint:{'center_x': 0.5, 'center_y': 0.5}
                         size_hint: None, None
                         width: root.width*0.8
-                        on_release: 
-                            app.root.current = 'entr_func_transf'
+                        on_release: root.resp_serie()
+                           
                             
                     MDRaisedButton:
                         text: "Resposta paralelo"
                         pos_hint:{'center_x': 0.5, 'center_y': 0.5}
                         size_hint: None, None
                         width: root.width*0.8
-                        on_release: app.root.current = 'entr_func_transf'
+                        on_release: root.resp_paralelo()
                     
                     MDRaisedButton:
                         text: "Resposta realimentação"
                         pos_hint:{'center_x': 0.5, 'center_y': 0.5}
                         size_hint: None, None
                         width: root.width*0.8
-                        on_release: app.root.current = 'entr_rea_tipo'
+                        on_release: app.root.current = app.tela_resposta_realimentacao
             
         MDIconButton:
             icon: 'arrow-left'
@@ -979,14 +979,14 @@ GerenciarTelas:
                         pos_hint:{'center_x': 0.5, 'center_y': 0.5}
                         size_hint: None, None
                         width: root.width*0.8
-                        on_release: app.root.current = 'entr_func_transf'
+                        on_release: root.rea_positiva()
                     
                     MDRaisedButton:
                         text: "Negativa"
                         pos_hint:{'center_x': 0.5, 'center_y': 0.5}
                         size_hint: None, None
                         width: root.width*0.8
-                        on_release: app.root.current = 'entr_func_transf'
+                        on_release: root.rea_negativa()
 
         MDIconButton:
             icon: 'arrow-left'
