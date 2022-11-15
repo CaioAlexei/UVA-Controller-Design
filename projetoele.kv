@@ -48,44 +48,66 @@ GerenciarTelas:
 <Tela_Inicial>:
     MDBoxLayout:
         orientation: 'vertical'
+        md_bg_color: 'white'
 
         MDTopAppBar:
             title: app.titulo
             pos_hint:{'top': 1}
+            elevation: 0
+
+        MDCard:
+            size_hint: None, None
+            size: "400dp", "380dp"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            FitImage:
+                source: 'images/logo-com-texto.png'
 
         MDBoxLayout:
             MDAnchorLayout:
                 anchor_y: 'center'
                 anchor_x: 'center'
+                
                 MDRaisedButton:
                     text: "Iniciar"
-                    line_width: 2
+                    padding: [40, 10]
+                    elevation: 2
                     on_release:
                         app.root.current = app.tela_escolha_sistema
 
 <Tela_Escolha_Tipo_Sistema>
-    BoxLayout:
+    MDBoxLayout:
+        md_bg_color: 'white'
         orientation: 'vertical'
         MDTopAppBar:
             title: app.titulo
             pos_hint:{'top': 1}
+            elevation: 0
+
+        MDCard:
+            size_hint: None, None
+            size: "200dp", "150dp"
+            pos_hint: {'center_x': 0.5, 'center_y': 1}
+
+            FitImage:
+                source: 'images/logo.png'
 
         MDLabel:
             text:'Escolha o seu sistema'
             font_style: 'H5'
             halign: 'center'
+            padding: [0, 40]
+            adaptive_height: True
 
         MDAnchorLayout:
             anchor_x: 'center'
             anchor_y: 'top'
-
 
             MDBoxLayout:
                 orientation: 'vertical'
                 spacing:20
                 size_hint: None, None
 
-                
                 MDRaisedButton:
                     text:'Função de Transferência'
                     pos_hint:{'center_x': 0.5, 'top': 1}
@@ -110,33 +132,56 @@ GerenciarTelas:
             title: app.titulo
             pos_hint:{'top': 1}
 
-        MDLabel:
-            text:'Representação do Sistema'
-            font_style: 'H4'
+        MDBoxLayout:
+            orientation: 'vertical'
+            padding: 10
+            
+            MDLabel:
+                text:'Representação do Sistema'
+                font_style: 'H4'
+                halign: 'center'
 
-        MDLabel:
-            text:root.texto1
-        MDLabel:
-            text:root.texto_A
-        MDLabel:
-            text:root.texto_E
-        
-        MDFloatLayout:
-            MDRoundFlatIconButton:
-                text: "Selecionar arquivo"
-                icon: "folder"
-                pos_hint: {'center_x': .5, 'center_y': .6}
-                theme_text_color: 'ContrastParentBackground'
-                theme_icon_color: 'ContrastParentBackground'
-                line_color: 0,0,0,1
-                on_release: root.caminho_arquivo_FT()
-            MDRoundFlatIconButton:
-                text: "Confirmar"                
-                pos_hint: {'center_x': .5, 'center_y': .3}
-                theme_text_color: 'ContrastParentBackground'
-                theme_icon_color: 'ContrastParentBackground'
-                line_color: 0,0,0,1
-                on_release: root.confirmacao()
+            MDCard:
+                padding: [10, 5]
+                elevation: 1
+                adaptive_height: True
+
+                MDLabel:
+                    text:root.texto1
+                    halign: 'center'
+                    adaptive_height: True
+                    pos_hint:{'center_x':0.5,'center_y':0.5}
+
+            MDLabel:
+                text:root.texto_A
+            MDLabel:
+                text:root.texto_E
+            
+            MDAnchorLayout:
+                anchor_x: 'center'
+                anchor_y: 'center'
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    adaptive_height: True
+                    spacing: 10
+
+                    MDRoundFlatIconButton:
+                        text: "Selecionar arquivo"
+                        icon: "folder"
+                        pos_hint: {'center_x': .5, 'center_y': .6}
+                        theme_text_color: 'ContrastParentBackground'
+                        theme_icon_color: 'ContrastParentBackground'
+                        line_color: 0,0,0,1
+                        on_release: root.caminho_arquivo_FT()
+
+                    MDRoundFlatIconButton:
+                        text: "Confirmar"                
+                        pos_hint: {'center_x': .5, 'center_y': .3}
+                        theme_text_color: 'ContrastParentBackground'
+                        theme_icon_color: 'ContrastParentBackground'
+                        line_color: 0,0,0,1
+                        on_release: root.confirmacao()
 
 <Tela_Arquivo_EE>
     BoxLayout:
@@ -145,97 +190,147 @@ GerenciarTelas:
             title: app.titulo
             pos_hint:{'top': 1}
 
-        MDLabel:
-            text:'Representação do Sistema'
-            font_style: 'H4'
+        MDBoxLayout:
+            orientation: 'vertical'
+            padding: 10
+            MDLabel:
+                text:'Representação do Sistema'
+                font_style: 'H4'
+                halign: 'center'
 
-        MDLabel:
-            text:root.texto1
-        MDLabel:
-            text:root.texto_A
-        MDLabel:
-            text:root.texto_E
-        
-        MDFloatLayout:
-            MDRoundFlatIconButton:
-                text: "Selecionar arquivo"
-                icon: "folder"
-                pos_hint: {'center_x': .5, 'center_y': .6}
-                theme_text_color: 'ContrastParentBackground'
-                theme_icon_color: 'ContrastParentBackground'
-                line_color: 0,0,0,1
-                on_release: root.caminho_arquivo_EE()
-            MDRoundFlatIconButton:
-                text: "Confirmar"                
-                pos_hint: {'center_x': .5, 'center_y': .3}
-                theme_text_color: 'ContrastParentBackground'
-                theme_icon_color: 'ContrastParentBackground'
-                line_color: 0,0,0,1
-                on_release: root.confirmacao()
-        
+            MDCard:
+                padding: [10, 5]
+                elevation: 1
+                adaptive_height: True
 
+                MDLabel:
+                    text:root.texto1
+                    halign: 'center'
+                    adaptive_height: True
+                    pos_hint:{'center_x':0.5,'center_y':0.5}
+
+            MDLabel:
+                text:root.texto_A
+            MDLabel:
+                text:root.texto_E
+            
+            MDAnchorLayout:
+                anchor_x: 'center'
+                anchor_y: 'center'
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    adaptive_height: True
+                    spacing: 10
+
+                    MDRoundFlatIconButton:
+                        text: "Selecionar arquivo"
+                        icon: "folder"
+                        pos_hint: {'center_x': .5, 'center_y': .6}
+                        theme_text_color: 'ContrastParentBackground'
+                        theme_icon_color: 'ContrastParentBackground'
+                        line_color: 0,0,0,1
+                        on_release: root.caminho_arquivo_EE()
+
+                    MDRoundFlatIconButton:
+                        text: "Confirmar"                
+                        pos_hint: {'center_x': .5, 'center_y': .3}
+                        theme_text_color: 'ContrastParentBackground'
+                        theme_icon_color: 'ContrastParentBackground'
+                        line_color: 0,0,0,1
+                        on_release: root.confirmacao()
+        
 <Tela_Menu>
-    MDTopAppBar:
-        title: app.titulo
-        pos_hint:{'top': 1}
-
     MDBoxLayout:
         orientation: 'vertical'
-        pos_hint:{'center_x':0.5,'center_y':0.7}
-        spacing:10
+        md_bg_color: 'white'
 
-        MDRaisedButton:
-            text:'Representação do Sistema'
-            pos_hint:{'center_x': 0.5, 'center_y': 0.5}
-            on_release: app.root.current = app.tela_representacao_sistema
-            size_hint: None, None
-            width: root.width*0.7    
+        MDTopAppBar:
+            title: app.titulo
+            pos_hint:{'top': 1}
+            elevation: 0
 
-        MDRaisedButton:
-            text:'Tempo de Resposta'
-            pos_hint:{'center_x': 0.5, 'center_y': 0.5}
-            on_release: app.root.current = app.tela_tempo_resposta
+        MDCard:
             size_hint: None, None
-            width: root.width*0.7
+            size: "200dp", "150dp"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
-        MDRaisedButton:
-            text:'Resposta de Frequência'
-            pos_hint:{'center_x': 0.5, 'center_y': 0.5}
-            on_release: app.root.current = app.tela_resposta_frequencia
-            size_hint: None, None
-            width: root.width*0.7
+            FitImage:
+                source: 'images/logo.png'
 
-        MDRaisedButton:
-            text:'Diagrama de Bloco'
-            pos_hint:{'center_x': 0.5, 'center_y': 0.5}
-            on_release: app.root.current = app.tela_diagrama_bloco
-            size_hint: None, None
-            width: root.width*0.7
+        MDAnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'top'
 
-        MDRaisedButton:
-            text:'Estabilidade'
-            pos_hint:{'center_x': 0.5, 'center_y': 0.5}
-            on_release: app.root.current = app.tela_estabilidade
-            size_hint: None, None
-            width: root.width*0.7
+            MDBoxLayout:
+                orientation: 'vertical'
+                pos_hint:{'center_x':0.5,'center_y':0.7}
+                adaptive_height: True
+                #pos_hint: {'top': 1}
+                spacing: 10
 
-        MDRaisedButton:
-            text:'Design de Controle'
-            pos_hint:{'center_x': 0.5, 'center_y': 0.5}
-            on_release: app.root.current = app.tela_design_controle
-            size_hint: None, None
-            width: root.width*0.7
+                MDRaisedButton:
+                    text:'Representação do Sistema'
+                    pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                    on_release: app.root.current = app.tela_representacao_sistema
+                    size_hint: None, None
+                    width: root.width*0.7    
 
-        MDRaisedButton:
-            text:'Digitalização'
-            pos_hint:{'center_x': 0.5, 'center_y': 0.5}
-            on_release: app.root.current = app.tela_digitalizacao
-            size_hint: None, None
-            width: root.width*0.7
+                MDRaisedButton:
+                    text:'Tempo de Resposta'
+                    pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                    on_release: app.root.current = app.tela_tempo_resposta
+                    size_hint: None, None
+                    width: root.width*0.7
+
+                MDRaisedButton:
+                    text:'Resposta de Frequência'
+                    pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                    on_release: app.root.current = app.tela_resposta_frequencia
+                    size_hint: None, None
+                    width: root.width*0.7
+
+                MDRaisedButton:
+                    text:'Diagrama de Bloco'
+                    pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                    on_release: app.root.current = app.tela_diagrama_bloco
+                    size_hint: None, None
+                    width: root.width*0.7
+
+                MDRaisedButton:
+                    text:'Estabilidade'
+                    pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                    on_release: app.root.current = app.tela_estabilidade
+                    size_hint: None, None
+                    width: root.width*0.7
+
+                MDRaisedButton:
+                    text:'Design de Controle'
+                    pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                    on_release: app.root.current = app.tela_design_controle
+                    size_hint: None, None
+                    width: root.width*0.7
+
+                MDRaisedButton:
+                    text:'Digitalização'
+                    pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                    on_release: app.root.current = app.tela_digitalizacao
+                    size_hint: None, None
+                    width: root.width*0.7
+
 <Tela_Representacao_Sistema>
     MDBoxLayout:
         orientation: 'vertical'
+        md_bg_color: 'white'
         padding: 10
+
+        MDCard:
+            size_hint: None, None
+            size: "200dp", "150dp"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            FitImage:
+                source: 'images/logo.png'
         
         MDBoxLayout:
             orientation: 'vertical'
@@ -281,8 +376,17 @@ GerenciarTelas:
 <Tela_Tempo_Resposta>
     MDBoxLayout:
         orientation: 'vertical'
+        md_bg_color: 'white'
         padding: 10
         
+        MDCard:
+            size_hint: None, None
+            size: "200dp", "150dp"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            FitImage:
+                source: 'images/logo.png'
+
         MDBoxLayout:
             orientation: 'vertical'
             MDBoxLayout:
@@ -337,15 +441,24 @@ GerenciarTelas:
 <Tela_Resposta_Frequencia>
     MDBoxLayout:
         orientation: 'vertical'
+        md_bg_color: 'white'
         padding: 10
         
+        MDCard:
+            size_hint: None, None
+            size: "200dp", "150dp"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            FitImage:
+                source: 'images/logo.png'
+
         MDBoxLayout:
             orientation: 'vertical'
             MDBoxLayout:
                 adaptive_height: True
                 pos_hint: {'top': 1}
                 MDLabel:
-                    text: 'Selecione o tipo de resposta'
+                    text: 'Selecione o tipo de resposta:'
                     font_style: 'H4'
                     halign: 'center'
             MDAnchorLayout:
@@ -380,15 +493,24 @@ GerenciarTelas:
 <Tela_Diagrama_Bloco>
     MDBoxLayout:
         orientation: 'vertical'
+        md_bg_color: 'white'
         padding: 10
         
+        MDCard:
+            size_hint: None, None
+            size: "200dp", "150dp"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            FitImage:
+                source: 'images/logo.png'
+
         MDBoxLayout:
             orientation: 'vertical'
             MDBoxLayout:
                 adaptive_height: True
                 pos_hint: {'top': 1}
                 MDLabel:
-                    text: 'Selecione o tipo de resposta'
+                    text: 'Selecione o tipo de resposta:'
                     font_style: 'H4'
                     halign: 'center'
             MDAnchorLayout:
@@ -429,8 +551,17 @@ GerenciarTelas:
 <Tela_Estabilidade>
     MDBoxLayout:
         orientation: 'vertical'
+        md_bg_color: 'white'
         padding: 10
         
+        MDCard:
+            size_hint: None, None
+            size: "200dp", "150dp"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            FitImage:
+                source: 'images/logo.png'
+
         MDBoxLayout:
             orientation: 'vertical'
             MDBoxLayout:
@@ -479,7 +610,16 @@ GerenciarTelas:
 <Tela_Design_Controle>
     MDBoxLayout:
         orientation: 'vertical'
+        md_bg_color: 'white'
         padding: 10
+        
+        MDCard:
+            size_hint: None, None
+            size: "200dp", "150dp"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            FitImage:
+                source: 'images/logo.png'
         
         MDBoxLayout:
             orientation: 'vertical'
@@ -524,7 +664,16 @@ GerenciarTelas:
 <Tela_Digitalizacao>
     MDBoxLayout:
         orientation: 'vertical'
+        md_bg_color: 'white'
         padding: 10
+        
+        MDCard:
+            size_hint: None, None
+            size: "200dp", "150dp"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            FitImage:
+                source: 'images/logo.png'
         
         MDBoxLayout:
             orientation: 'vertical'
@@ -532,7 +681,7 @@ GerenciarTelas:
                 adaptive_height: True
                 pos_hint: {'top': 1}
                 MDLabel:
-                    text: 'Selecione o tipo de Digitalização'
+                    text: 'Selecione o tipo de Digitalização:'
                     font_style: 'H4'
                     halign: 'center'
             MDAnchorLayout:
@@ -572,6 +721,12 @@ GerenciarTelas:
 #2°
 <Entrada_Tempo_impulso_unit>
     MDBoxLayout:
+        canvas.before:
+            Color:
+                rgb: utils.get_color_from_hex("#ffffff")
+            Rectangle:
+                size: self.size
+                pos: self.pos
         padding: 10
         orientation: "vertical"
 
@@ -607,6 +762,12 @@ GerenciarTelas:
     MDBoxLayout:
         padding: 10
         orientation: "vertical"
+        canvas.before:
+            Color:
+                rgb: utils.get_color_from_hex("#ffffff")
+            Rectangle:
+                size: self.size
+                pos: self.pos
 
         MDLabel:
             text: 'Entre com os dados solicitados:'
@@ -640,6 +801,12 @@ GerenciarTelas:
     MDBoxLayout:
         padding: 10
         orientation: "vertical"
+        canvas.before:
+            Color:
+                rgb: utils.get_color_from_hex("#ffffff")
+            Rectangle:
+                size: self.size
+                pos: self.pos
 
         MDLabel:
             text: 'Entre com os dados solicitados:'
@@ -691,6 +858,12 @@ GerenciarTelas:
     MDBoxLayout:
         padding: 10
         orientation: "vertical"
+        canvas.before:
+            Color:
+                rgb: utils.get_color_from_hex("#ffffff")
+            Rectangle:
+                size: self.size
+                pos: self.pos
 
         MDLabel:
             text: 'Entre com os dados solicitados:'
@@ -735,7 +908,6 @@ GerenciarTelas:
 #2°
 
 <Entrada_Tempo_Ini_Fim>
-
     MDBoxLayout:
         canvas.before:
             Color:

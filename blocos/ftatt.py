@@ -34,7 +34,7 @@ def analisando_funcao(funcao, verificador):
           erro3 = "Erro!! Todos os elementos da função de transferência devem ser números! substituia o valor a variável" + str(
             lista[j]) + "pelo valor desejado a ser analisado \n"
           print(erro3)
-          exit()
+          raise Exception(erro3)
 
       if i == 0:
         if cont == 0:
@@ -75,27 +75,27 @@ def recebendo_arquivo(nome):
 
     arquivo = open(nome, 'r')
   except:
-    erro = "\nNão foi possível abrir o arquivo. Verifique se o nome e localização no diretório do arquivo  estão corretos!!"
+    erro = "\nNão foi possível abrir o arquivo. Verifique se o nome e localização no diretório do arquivo estão corretos!!"
     print(erro)
-    exit()
+    raise Exception(erro)
   else:
     #Verificando se o arquivo é vazio:
     isempty = os.stat(nome).st_size == 0
     if isempty == True:
       erro = "Arquivo Vazio!! Insira os dados!!"
       print(erro)
-      exit()
+      raise Exception(erro)
     else:
       #Analisando cada linha do arquivo
       for i in arquivo:
         if i == "\n" or i == "":
           erro = "A linha" + j + "deve conter valor diferente de nulo!!!"
           print(erro)
-          exit()
+          raise Exception(erro)
         elif i == "0" or i == "0\n":
           erro = "A linha" + j + "deve conter outros valores além do valor zero!! \n"
           print(erro)
-          exit()
+          raise Exception(erro)
         else:
           lista_arquivo.append(i)
           j = j + 1
@@ -110,7 +110,7 @@ def recebendo_arquivo(nome):
   if len(lista_arquivo) < 2:
     erro = "O arquivo deve conter no mínimo deve conter no mínimo de 4 linhas\n"
     print(erro)
-    exit()
+    raise Exception(erro)
 
     #Se o arquivo tiver apenas 3 linhas. EXIBIRÁ SOMENTE UM AVISO!!
   if len(lista_arquivo) == 3:

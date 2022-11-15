@@ -46,16 +46,11 @@ class Tela_Diagrama_Bloco(Screen):
 class Tela_Estabilidade(Screen):
     def gerar_mapa_polos_zeros(self):
         polos, zeros = bloco5.mapa_polos_zeros(Global.sys1)
-        self.dialog = MDDialog(
-            title = "Polos e Zeros", 
-            text= f"Sistema:\n{Global.sys1}\nPolos:\n{polos}\nZeros:\n{zeros}",
-            buttons=[MDFlatButton(
-                text="Ok",
-                on_release = self.fechar
-                )
-            ])
-        
-        self.dialog.open()
+
+        abrir_popup(self, 
+            f"Sistema:\n{Global.sys1}\nPolos:\n{polos}\nZeros:\n{zeros}", 
+            "Polos e Zeros"
+        )
     
     def gerar_root_locus(self):
         if(Global.apto_root_locus):
@@ -65,20 +60,17 @@ class Tela_Estabilidade(Screen):
 
     def gerar_margem_estabilidade(self):
         marg_mag, marg_fase, freq_mag, freq_fase = bloco5.margem_estabilidade(Global.sys1)
-        self.dialog = MDDialog( 
-            text= """
+
+        msgm = """
                 Sistema: {}\n
                 Margem de magnitude (dB): {:.4f}\n
                 Margem de fase (graus): {:.4f}\n
                 Frequência de cruzamento de magnitude (rad/s): {:.4f}\n
                 requência de cruzamento de fase (rad/s): {:.4f}
-            """.format(Global.sys1, marg_mag, marg_fase, freq_mag, freq_fase),  
-            buttons=[MDFlatButton(
-                text="Ok",
-                on_release = self.fechar
-                )
-            ])
-        self.dialog.open()
+            """.format(Global.sys1, marg_mag, marg_fase, freq_mag, freq_fase)
+
+        abrir_popup(self, msgm, 'Margem de Estabilidade')
+
     
     def fechar(self, obj):
         self.dialog.dismiss()
@@ -109,8 +101,13 @@ class Tela_Arquivo_FT(Screen):
         print (root.directory)
         self.texto1=root.directory
         
-        Global.caminho_arquivo=root.directory        
-        Global.sys1,Global.sys2,Global.error,Global.atencao, Global.apto_root_locus = ftatt.dados_finais_FT(Global.caminho_arquivo)
+        Global.caminho_arquivo=root.directory
+        try:  
+            Global.sys1,Global.sys2,Global.error,Global.atencao, Global.apto_root_locus = ftatt.dados_finais_FT(Global.caminho_arquivo)
+        except Exception as e:
+            abrir_popup(self, str(e))
+            return
+            
         if(Global.error !='sem erro'):
             Global.texto1=Global.error
         print(Global.sys1)
@@ -120,10 +117,13 @@ class Tela_Arquivo_FT(Screen):
         self.texto_E=Global.error
         print(Global.atencao)
         print("Apto para root locus? ", Global.apto_root_locus)
+    
+    def fechar(self, obj):
+        self.dialog.dismiss()
         
 
     def confirmacao(self,*args):
-    
+        self.texto1 = ''
         if(Global.error=='sem erro'):
             self.manager.current=Projetoele.tela_menu   
     pass
@@ -159,6 +159,9 @@ class Tela_Arquivo_EE(Screen):
         if(Global.error=='sem erro'):
             self.manager.current=Projetoele.tela_menu
     pass    
+
+    def fechar(self, obj):
+        self.dialog.dismiss()
 
 #---Tempo Resposta---#
 
@@ -242,7 +245,6 @@ class Entrada_Tempo_condicao_ini(Screen):
         self.ids.elemento2.text = ""
 
 class Entrada_Tempo_forcada(Screen):
-    #TODO: refazer para o novo bloco2
     def gerar_grafico_resp_senoidal(self):
 
         T, X0, aux = FuncaoTempo(self.ids.t_final.text, self.ids.t_inicial.text)
@@ -305,7 +307,7 @@ class Projetoele(MDApp):
 
     #titulo do app
     titulo='Controller Design'
-    Window.size =(300,600)
+    Window.size =(600,600)
     def build(self):
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Yellow" ##FFEB3B
