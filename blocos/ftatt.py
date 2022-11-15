@@ -13,6 +13,7 @@ def analisando_funcao(funcao, verificador):
   aux = 1
   erro3 = 'sem erro'
   apto_root_locus = True
+  atencao3=''
   #Criando Auxiliar pra 2 entradas:
 
   if verificador == 1:
@@ -51,11 +52,12 @@ def analisando_funcao(funcao, verificador):
   if len(num1) > len(den1):
     atencao3 = "ATENÇÃO!!! Para o SISTEMA 1, o número de zeros (z)  é maior que o número de polos (p) ! Para z > p, o sistema não pode ser modelado fisicamente, podendo gerar inconsistência nos resultados de análise!!"
     apto_root_locus = False
+    print(atencao3)
 
   if len(num2) > len(den2):
     atencao3 += " ATENÇÃO!!! Para o SISTEMA 2, o número de zeros (z)  é maior que o número de polos (p)! Para z > p, o sistema não pode ser modelado fisicamente, podendo gerar inconsistência nos resultados de análise!!"
-
-  print(atencao3)
+    print(atencao3)
+  
   return (num1, den1, num2, den2, erro3, atencao3, apto_root_locus)
 
 

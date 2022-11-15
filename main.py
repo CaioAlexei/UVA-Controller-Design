@@ -13,10 +13,10 @@ from kivymd.app import MDApp
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
 
-import arquivo
+
 #Globals
 import Global
-from blocos import bloco2, bloco3, bloco5, eeatt, ftatt
+from blocos import bloco2, bloco3,bloco4, bloco5, eeatt, ftatt
 
 
 #----------------------------------------- Gerenciador de Telas ----------------------------------------#
@@ -42,12 +42,42 @@ class Tela_Resposta_Frequencia(Screen):
         bloco3.diagrama_nyquist(Global.sys1)
         
 class Tela_Diagrama_Bloco(Screen):
+    def resp_serie(self):
+        serie=bloco4.serie_bl4(Global.sys1,Global.sys2)
+        print(serie)
+        
+        self.dialog = MDDialog(
+            title = "Resposta Serie",   
+            text= f"{serie}",
+            buttons=[MDFlatButton(
+                text="Ok",
+                on_release = self.fechar
+                )
+            ])
+        self.dialog.open()
+
+    def resp_paralelo(self):
+        paralelo=bloco4.paralelo_bl4(Global.sys1,Global.sys2)
+        print(paralelo)
+        self.dialog = MDDialog(
+            title = "Resposta Paralelo",   
+            text= f"{paralelo}",
+            buttons=[MDFlatButton(
+                text="Ok",
+                on_release = self.fechar
+                )
+            ])
+        self.dialog.open()
+
+    
+    def fechar(self, obj):
+        self.dialog.dismiss()    
     pass
 class Tela_Estabilidade(Screen):
     def gerar_mapa_polos_zeros(self):
         polos, zeros = bloco5.mapa_polos_zeros(Global.sys1)
         self.dialog = MDDialog(
-            title = "Polos e Zeros", 
+            title = "Polos e Zeros",   
             text= f"Sistema:\n{Global.sys1}\nPolos:\n{polos}\nZeros:\n{zeros}",
             buttons=[MDFlatButton(
                 text="Ok",
@@ -283,17 +313,54 @@ class Entrada_Tempo_Ini_Fim(Screen):
 #---Diagrama de Bloco---#
 
 #2°
+
+
+
 class Entrada_Realimentacao_Tipo(Screen):
+    def rea_positiva(self):
+        posi=bloco4.reali_posi(Global.sys1,Global.sys2)
+        print(posi)
+        self.dialog = MDDialog(
+            title = "Realimentação Positiva",   
+            text= f"{posi}",
+            buttons=[MDFlatButton(
+                text="Ok",
+                on_release = self.fechar
+                )
+            ])
+        self.dialog.open()
+    def rea_negativa(self):
+        nega=bloco4.reali_neg(Global.sys1,Global.sys2)
+        print(nega)
+        self.dialog = MDDialog(
+            title = "Realimentação Negativa",   
+            text= f"{nega}",
+            buttons=[MDFlatButton(
+                text="Ok",
+                on_release = self.fechar
+                )
+            ])
+        self.dialog.open()
+
+            
+
+    def fechar(self, obj):
+        self.dialog.dismiss()    
+
     pass
+
+
 
 
 #App
 class Projetoele(MDApp):
     #string das telas principais e secundárias
+    #inicio
     tela_inicio='tela_inicio'
     tela_escolha_sistema='tela_escolha_sistema'
     tela_arquivo_ft='tela_arquivo_ft'
-    tela_arquivo_ee='tela_arquivo_ee'        
+    tela_arquivo_ee='tela_arquivo_ee'
+    #menu        
     tela_menu='tela_menu'
     tela_representacao_sistema='tela_representacao_sistema'
     tela_tempo_resposta='tela_tempo_resposta'
@@ -303,9 +370,13 @@ class Projetoele(MDApp):
     tela_design_controle='tela_design_controle'
     tela_digitalizacao='tela_digitalizacao'
 
+    #diagrama de bloco (4)
+
+    tela_resposta_realimentacao='rela_resposta_realimentacao'
+
     #titulo do app
     titulo='Controller Design'
-    Window.size =(300,600)
+    Window.size =(600,600)
     def build(self):
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Yellow" ##FFEB3B
