@@ -88,9 +88,9 @@ def resp_impulso_unitario(sys, T, X0):
     raise Exception('Verifique se a função não é imprópria( nº de zeros > nº de polos)')
 
 
-def resp_degrau_unitario(sys, T):
+def resp_degrau_unitario(sys, T, X0):
 
-  t, y = ctl.step_response(sys, T, [[1][2]])
+  t, y = ctl.step_response(sys, T, X0)
 
   plotar_grafico(t, y, 'Resposta ao Degrau Unitário')
 

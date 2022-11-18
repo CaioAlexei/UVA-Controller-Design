@@ -24,10 +24,6 @@ GerenciarTelas:
         name: app.tela_diagrama_bloco
     Tela_Estabilidade:
         name: app.tela_estabilidade
-    Tela_Design_Controle:
-        name: app.tela_design_controle
-    Tela_Digitalizacao:
-        name: app.tela_digitalizacao
 
     Entrada_Tempo_impulso_unit:
         name: 'entr_impulso_unit'
@@ -304,19 +300,6 @@ GerenciarTelas:
                     size_hint: None, None
                     width: root.width*0.7
 
-                MDRaisedButton:
-                    text:'Design de Controle'
-                    pos_hint:{'center_x': 0.5, 'center_y': 0.5}
-                    on_release: app.root.current = app.tela_design_controle
-                    size_hint: None, None
-                    width: root.width*0.7
-
-                MDRaisedButton:
-                    text:'Digitalização'
-                    pos_hint:{'center_x': 0.5, 'center_y': 0.5}
-                    on_release: app.root.current = app.tela_digitalizacao
-                    size_hint: None, None
-                    width: root.width*0.7
 
 <Tela_Representacao_Sistema>
     MDBoxLayout:
@@ -428,7 +411,7 @@ GerenciarTelas:
                         width: root.width*0.8
                         on_release: app.root.current = 'entr_condicao_ini'
                     MDRaisedButton:
-                        text: "Resposta Forçada"
+                        text: "Resposta com Entrada Senoidal"
                         pos_hint:{'center_x': 0.5, 'center_y': 0.5}
                         size_hint: None, None
                         width: root.width*0.8
@@ -601,114 +584,6 @@ GerenciarTelas:
                         size_hint: None, None
                         width: root.width*0.8
                         on_release: root.gerar_margem_estabilidade()
-            
-        MDIconButton:
-            icon: 'arrow-left'
-            on_release:
-                app.root.current = app.tela_menu
-
-<Tela_Design_Controle>
-    MDBoxLayout:
-        orientation: 'vertical'
-        md_bg_color: 'white'
-        padding: 10
-        
-        MDCard:
-            size_hint: None, None
-            size: "200dp", "150dp"
-            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
-            FitImage:
-                source: 'images/logo.png'
-        
-        MDBoxLayout:
-            orientation: 'vertical'
-            MDBoxLayout:
-                adaptive_height: True
-                pos_hint: {'top': 1}
-                MDLabel:
-                    text: 'Selecione o tipo de Design:'
-                    font_style: 'H4'
-                    halign: 'center'
-            MDAnchorLayout:
-                anchor_x: 'center'
-                anchor_y: 'center'
-
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    adaptive_height: True
-                    spacing: 10
-
-                    MDRaisedButton:
-                        text: "Colocação de Pole"
-                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
-                        size_hint: None, None
-                        width: root.width*0.8
-                        on_release: 
-                            app.root.current = 'entr_func_transf'
-                            
-                    MDRaisedButton:
-                        text: "LQ controle óptimo"
-                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
-                        size_hint: None, None
-                        width: root.width*0.8
-                        on_release: app.root.current = 'entr_func_transf'
-                    
-                    
-            
-        MDIconButton:
-            icon: 'arrow-left'
-            on_release:
-                app.root.current = app.tela_menu
-
-<Tela_Digitalizacao>
-    MDBoxLayout:
-        orientation: 'vertical'
-        md_bg_color: 'white'
-        padding: 10
-        
-        MDCard:
-            size_hint: None, None
-            size: "200dp", "150dp"
-            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
-            FitImage:
-                source: 'images/logo.png'
-        
-        MDBoxLayout:
-            orientation: 'vertical'
-            MDBoxLayout:
-                adaptive_height: True
-                pos_hint: {'top': 1}
-                MDLabel:
-                    text: 'Selecione o tipo de Digitalização:'
-                    font_style: 'H4'
-                    halign: 'center'
-            MDAnchorLayout:
-                anchor_x: 'center'
-                anchor_y: 'center'
-
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    adaptive_height: True
-                    spacing: 10
-
-                    MDRaisedButton:
-                        text: "Segurar ordem zero"
-                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
-                        size_hint: None, None
-                        width: root.width*0.8
-                        on_release: 
-                            app.root.current = 'entr_func_transf'
-                            
-                    MDRaisedButton:
-                        text: "Tranformação Tustin"
-                        pos_hint:{'center_x': 0.5, 'center_y': 0.5}
-                        size_hint: None, None
-                        width: root.width*0.8
-                        on_release: app.root.current = 'entr_func_transf'
-                    
-                    
             
         MDIconButton:
             icon: 'arrow-left'

@@ -131,11 +131,11 @@ def dados_finais_FT(x):
   funcao, verificador, erro2, atencao2 = recebendo_arquivo(x)
 
   if (erro2 == 'sem erro'):
-    num1, den1, num2, den2, erro4, atencao4, apto_root_locus = analisando_funcao(
+    num1, den1, num2, den2, erro4, atencao4, apto = analisando_funcao(
       funcao, verificador)
 
   else:
-    return (sys1, sys2, erro2, atencao2, apto_root_locus)
+    return (sys1, sys2, erro2, atencao2, apto)
 
   #Se o numero de linhas no arquivo igual ou menor que 2:
 
@@ -145,7 +145,7 @@ def dados_finais_FT(x):
       sys1 = ctl.tf(num1, den1)
       print("Sistema 1: \n")
       print(sys1)
-      return (sys1, sys2, erro4, atencao4, apto_root_locus)
+      return (sys1, sys2, erro4, atencao4, apto)
     #Se for maior que 2 linhas, indica que tem outro sistema. Logo:
     else:
       sys1 = ctl.tf(num1, den1)
@@ -154,10 +154,10 @@ def dados_finais_FT(x):
       print(sys1)
       print("Sistema 2: \n")
       print(sys2)
-      return (sys1, sys2, erro4, atencao4, apto_root_locus)
+      return (sys1, sys2, erro4, atencao4, apto)
   else:
 
-    return (sys1, sys2, erro4, atencao4, apto_root_locus)
+    return (sys1, sys2, erro4, atencao4, apto)
 
 
 
