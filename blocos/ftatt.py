@@ -129,6 +129,7 @@ def dados_finais_FT(x):
   sys1 = 0
   sys2 = 0
   funcao, verificador, erro2, atencao2 = recebendo_arquivo(x)
+  tipo='FT'
 
   if (erro2 == 'sem erro'):
     num1, den1, num2, den2, erro4, atencao4, apto = analisando_funcao(

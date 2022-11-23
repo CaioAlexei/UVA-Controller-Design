@@ -15,7 +15,7 @@ from kivymd.uix.dialog import MDDialog
 
 #Globals
 import Global
-from blocos import bloco2, bloco3, bloco4, bloco5, eeatt, ftatt
+from blocos import bloco1,bloco2, bloco3, bloco4, bloco5, eeatt, ftatt
 
 
 #----------------------------------------- Gerenciador de Telas ----------------------------------------#
@@ -33,6 +33,59 @@ class Tela_Arquivo(Screen):
     pass
 
 class Tela_Representacao_Sistema(Screen):
+
+    def FT(self):
+        if(Global.tipo =='FT'):            
+            self.dialog = MDDialog(
+                title = "ERROR",   
+                text= f"O Sistema ja é Função de Transferência",
+                buttons=[MDFlatButton(
+                    text="Ok",
+                    on_release = self.fechar
+                    )
+                ])
+            self.dialog.open()
+        else:            
+            sistema=bloco1.EE_FT(Global.sys1, Global.sys2)
+            print(sistema)
+            self.dialog = MDDialog(
+                title = "Função de Espaço de Estado para Função de Transferência",   
+                text= f"{sistema}",
+                buttons=[MDFlatButton(
+                    text="Ok",
+                    on_release = self.fechar
+                    )
+                ])
+            self.dialog.open()
+
+    def EE(self):
+        if(Global.tipo =='EE'):            
+            self.dialog = MDDialog(
+                title = "ERROR",   
+                text= f"O Sistema ja é Função de Espaço de Estado",
+                buttons=[MDFlatButton(
+                    text="Ok",
+                    on_release = self.fechar
+                    )
+                ])
+            self.dialog.open()
+        else:            
+            sistema=bloco1.FT_EE(Global.sys1, Global.sys2)
+            print(sistema)
+            self.dialog = MDDialog(
+                title = "Função de Função de Transferência para Espaço de Estado",   
+                text= f"{sistema}",
+                buttons=[MDFlatButton(
+                    text="Ok",
+                    on_release = self.fechar
+                    )
+                ])
+            self.dialog.open()
+
+
+    def fechar(self, obj):
+        self.dialog.dismiss()  
+
     pass
 class Tela_Tempo_Resposta(Screen):
     pass        

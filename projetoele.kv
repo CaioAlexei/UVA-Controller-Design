@@ -340,15 +340,14 @@ GerenciarTelas:
                         pos_hint:{'center_x': 0.5, 'center_y': 0.5}
                         size_hint: None, None
                         width: root.width*0.8
-                        on_release: 
-                            app.root.current = 'input_time'
+                        on_release: root.FT()
                             
                     MDRaisedButton:
                         text: "Equação Espaço-Estado"
                         pos_hint:{'center_x': 0.5, 'center_y': 0.5}
                         size_hint: None, None
                         width: root.width*0.8
-                        on_release: app.root.current = 'input_time'
+                        on_release: root.EE()
                     
 
         MDIconButton:
