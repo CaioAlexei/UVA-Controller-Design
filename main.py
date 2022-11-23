@@ -16,7 +16,7 @@ from kivymd.uix.dialog import MDDialog
 
 #Globals
 import Global
-from blocos import bloco2, bloco3,bloco4, bloco5, eeatt, ftatt
+from blocos import bloco1,bloco2, bloco3,bloco4, bloco5, eeatt, ftatt
 
 
 #----------------------------------------- Gerenciador de Telas ----------------------------------------#
@@ -34,6 +34,59 @@ class Tela_Arquivo(Screen):
     pass
 
 class Tela_Representacao_Sistema(Screen):
+
+    def FT(self):
+        if(Global.tipo =='FT'):            
+            self.dialog = MDDialog(
+                title = "ERROR",   
+                text= f"O Sistema ja é Função de Transferência",
+                buttons=[MDFlatButton(
+                    text="Ok",
+                    on_release = self.fechar
+                    )
+                ])
+            self.dialog.open()
+        else:            
+            sistema=bloco1.EE_FT(Global.sys1, Global.sys2)
+            print(sistema)
+            self.dialog = MDDialog(
+                title = "Função de Espaço de Estado para Função de Transferência",   
+                text= f"{sistema}",
+                buttons=[MDFlatButton(
+                    text="Ok",
+                    on_release = self.fechar
+                    )
+                ])
+            self.dialog.open()
+
+    def EE(self):
+        if(Global.tipo =='EE'):            
+            self.dialog = MDDialog(
+                title = "ERROR",   
+                text= f"O Sistema ja é Função de Espaço de Estado",
+                buttons=[MDFlatButton(
+                    text="Ok",
+                    on_release = self.fechar
+                    )
+                ])
+            self.dialog.open()
+        else:            
+            sistema=bloco1.FT_EE(Global.sys1, Global.sys2)
+            print(sistema)
+            self.dialog = MDDialog(
+                title = "Função de Função de Transferência para Espaço de Estado",   
+                text= f"{sistema}",
+                buttons=[MDFlatButton(
+                    text="Ok",
+                    on_release = self.fechar
+                    )
+                ])
+            self.dialog.open()
+
+
+    def fechar(self, obj):
+        self.dialog.dismiss()  
+
     pass
 class Tela_Tempo_Resposta(Screen):
     pass        
@@ -140,7 +193,7 @@ class Tela_Arquivo_FT(Screen):
         self.texto1=root.directory
         
         Global.caminho_arquivo=root.directory        
-        Global.sys1,Global.sys2,Global.error,Global.atencao, Global.apto_root_locus = ftatt.dados_finais_FT(Global.caminho_arquivo)
+        Global.sys1,Global.sys2,Global.error,Global.atencao, Global.apto_root_locus,Global.tipo = ftatt.dados_finais_FT(Global.caminho_arquivo)
         if(Global.error !='sem erro'):
             Global.texto1=Global.error
         print(Global.sys1)
@@ -174,7 +227,7 @@ class Tela_Arquivo_EE(Screen):
         print (root.directory)
         
         Global.caminho_arquivo=root.directory        
-        Global.sys1,Global.sys2,Global.atencao_EE_RA,Global.atencao_EE_DF,Global.error = eeatt.dados_finais_EE(Global.caminho_arquivo)
+        Global.sys1,Global.sys2,Global.atencao_EE_RA,Global.atencao_EE_DF,Global.error,Global.tipo = eeatt.dados_finais_EE(Global.caminho_arquivo)
         if(Global.error !='sem erro'):
             Global.texto1=Global.error
         print(Global.sys1)

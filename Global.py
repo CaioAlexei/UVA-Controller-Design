@@ -6,3 +6,4 @@ atencao=''
 atencao_EE_RA=''
 atencao_EE_DF=''
 apto_root_locus=True
+tipo=''
