@@ -13,10 +13,9 @@ from kivymd.app import MDApp
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
 
-
 #Globals
 import Global
-from blocos import bloco1,bloco2, bloco3,bloco4, bloco5, eeatt, ftatt
+from blocos import bloco1,bloco2, bloco3, bloco4, bloco5, eeatt, ftatt
 
 
 #----------------------------------------- Gerenciador de Telas ----------------------------------------#
@@ -129,47 +128,35 @@ class Tela_Diagrama_Bloco(Screen):
 class Tela_Estabilidade(Screen):
     def gerar_mapa_polos_zeros(self):
         polos, zeros = bloco5.mapa_polos_zeros(Global.sys1)
-        self.dialog = MDDialog(
-            title = "Polos e Zeros",   
-            text= f"Sistema:\n{Global.sys1}\nPolos:\n{polos}\nZeros:\n{zeros}",
-            buttons=[MDFlatButton(
-                text="Ok",
-                on_release = self.fechar
-                )
-            ])
-        
-        self.dialog.open()
+
+        abrir_popup(self, 
+            f"Sistema:\n{Global.sys1}\nPolos:\n{polos}\nZeros:\n{zeros}", 
+            "Polos e Zeros"
+        )
     
     def gerar_root_locus(self):
-        if(Global.apto_root_locus):
+        if(Global.tem_atencao):
             bloco5.lugar_raizes(Global.sys1)
         else:
             abrir_popup(self, "Sistema impróprio para Root Locus.")
 
     def gerar_margem_estabilidade(self):
         marg_mag, marg_fase, freq_mag, freq_fase = bloco5.margem_estabilidade(Global.sys1)
-        self.dialog = MDDialog( 
-            text= """
+
+        msgm = """
                 Sistema: {}\n
                 Margem de magnitude (dB): {:.4f}\n
                 Margem de fase (graus): {:.4f}\n
                 Frequência de cruzamento de magnitude (rad/s): {:.4f}\n
                 requência de cruzamento de fase (rad/s): {:.4f}
-            """.format(Global.sys1, marg_mag, marg_fase, freq_mag, freq_fase),  
-            buttons=[MDFlatButton(
-                text="Ok",
-                on_release = self.fechar
-                )
-            ])
-        self.dialog.open()
+            """.format(Global.sys1, marg_mag, marg_fase, freq_mag, freq_fase)
+
+        abrir_popup(self, msgm, 'Margem de Estabilidade')
+
     
     def fechar(self, obj):
         self.dialog.dismiss()
 
-class Tela_Design_Controle(Screen):
-    pass
-class Tela_Digitalizacao(Screen):
-    pass
 
 # ----------------------------------------- Telas_Secundárias ------------------------------------------- #
 
@@ -192,8 +179,13 @@ class Tela_Arquivo_FT(Screen):
         print (root.directory)
         self.texto1=root.directory
         
-        Global.caminho_arquivo=root.directory        
-        Global.sys1,Global.sys2,Global.error,Global.atencao, Global.apto_root_locus,Global.tipo = ftatt.dados_finais_FT(Global.caminho_arquivo)
+        Global.caminho_arquivo=root.directory
+        try:  
+            Global.sys1,Global.sys2,Global.error,Global.atencao, Global.tem_atencao = ftatt.dados_finais_FT(Global.caminho_arquivo)
+        except Exception as e:
+            abrir_popup(self, str(e))
+            return
+            
         if(Global.error !='sem erro'):
             Global.texto1=Global.error
         print(Global.sys1)
@@ -202,11 +194,14 @@ class Tela_Arquivo_FT(Screen):
         self.texto_A=Global.atencao
         self.texto_E=Global.error
         print(Global.atencao)
-        print("Apto para root locus? ", Global.apto_root_locus)
+        print("Apto para root locus? ", Global.tem_atencao)
+    
+    def fechar(self, obj):
+        self.dialog.dismiss()
         
 
     def confirmacao(self,*args):
-    
+        self.texto1 = ''
         if(Global.error=='sem erro'):
             self.manager.current=Projetoele.tela_menu   
     pass
@@ -226,8 +221,13 @@ class Tela_Arquivo_EE(Screen):
         root.directory = filedialog.askopenfilename(filetypes=(("text files","txt"),))
         print (root.directory)
         
-        Global.caminho_arquivo=root.directory        
-        Global.sys1,Global.sys2,Global.atencao_EE_RA,Global.atencao_EE_DF,Global.error,Global.tipo = eeatt.dados_finais_EE(Global.caminho_arquivo)
+        Global.caminho_arquivo=root.directory   
+        try:     
+            Global.sys1,Global.sys2,Global.atencao_EE_RA,Global.atencao_EE_DF,Global.error = eeatt.dados_finais_EE(Global.caminho_arquivo)
+        except Exception as e:
+            abrir_popup(self, str(e))
+            return
+            
         if(Global.error !='sem erro'):
             Global.texto1=Global.error
         print(Global.sys1)
@@ -243,6 +243,9 @@ class Tela_Arquivo_EE(Screen):
             self.manager.current=Projetoele.tela_menu
     pass    
 
+    def fechar(self, obj):
+        self.dialog.dismiss()
+
 #---Tempo Resposta---#
 
 def FuncaoTempo(t_final, t_inicial=0.0, X0=0.0):
@@ -253,14 +256,16 @@ def FuncaoTempo(t_final, t_inicial=0.0, X0=0.0):
     if (t_inicial != ''):
         t_inicial = float(t_inicial)
     else:
+        t_inicial = 0.0
         aux = aux + 1
-    print(t_inicial)
+    print("Tempo inicial: ", t_inicial)
 
     if t_final != '':
         t_final = float(t_final)
     else:
+        t_final = 100.0
         aux = aux + 1
-    print(t_final)
+    print("Tempo final: ", t_final)
 
     #Condição Inicial (X0):
     if X0 != '':
@@ -306,17 +311,26 @@ class Entrada_Tempo_degrau_unit(Screen):
     def gerar_grafico_deg_unit(self):
         T, X0 , aux = FuncaoTempo(self.ids.t_final.text, self.ids.t_inicial.text)
 
-        bloco2.resp_degrau_unitario(Global.sys1, T)
+        try:
+            bloco2.resp_degrau_unitario(Global.sys1, T, X0)
+        except Exception as e:
+            abrir_popup(self, str(e))
 
     def clear(self):
         self.ids.t_inicial.text = ""
         self.ids.t_final.text = ""
 
+    def fechar(self, obj):
+        self.dialog.dismiss()
+
 class Entrada_Tempo_condicao_ini(Screen):
     def gerar_grafico_codicao_ini(self):
         T, X0, aux = FuncaoTempo(self.ids.t_final.text, self.ids.t_inicial.text)
 
-        bloco2.resp_condicao_inicial(Global.sys1, T, X0)
+        try:
+            bloco2.resp_condicao_inicial(Global.sys1, T, X0)
+        except Exception as e:
+            abrir_popup(self, str(e))
         
     def clear(self):
         self.ids.t_inicial.text = ""
@@ -324,8 +338,10 @@ class Entrada_Tempo_condicao_ini(Screen):
         self.ids.elemento1.text = ""
         self.ids.elemento2.text = ""
 
+    def fechar(self, obj):
+        self.dialog.dismiss()
+
 class Entrada_Tempo_forcada(Screen):
-    #TODO: refazer para o novo bloco2
     def gerar_grafico_resp_senoidal(self):
 
         T, X0, aux = FuncaoTempo(self.ids.t_final.text, self.ids.t_inicial.text)
@@ -367,8 +383,6 @@ class Entrada_Tempo_Ini_Fim(Screen):
 
 #2°
 
-
-
 class Entrada_Realimentacao_Tipo(Screen):
     def rea_positiva(self):
         posi=bloco4.reali_posi(Global.sys1,Global.sys2)
@@ -403,8 +417,6 @@ class Entrada_Realimentacao_Tipo(Screen):
     pass
 
 
-
-
 #App
 class Projetoele(MDApp):
     #string das telas principais e secundárias
@@ -420,8 +432,6 @@ class Projetoele(MDApp):
     tela_resposta_frequencia='tela_resposta_frequencia'
     tela_diagrama_bloco='tela_diagrama_bloco'
     tela_estabilidade='tela_estabilidade'
-    tela_design_controle='tela_design_controle'
-    tela_digitalizacao='tela_digitalizacao'
 
     #diagrama de bloco (4)
 
@@ -430,6 +440,8 @@ class Projetoele(MDApp):
     #titulo do app
     titulo='Controller Design'
     Window.size =(600,600)
+    Window.minimum_width = 300
+    Window.minimum_height = 600
     def build(self):
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Yellow" ##FFEB3B
