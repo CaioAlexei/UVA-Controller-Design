@@ -1,6 +1,6 @@
-import control as ctl
+import os  # Biblioteca para verificar se o arquivo é vazio ou não
 
-import os  #Biblioteca para verificar se o arquivo é vazio ou não
+import control as ctl
 
 #Analisando se a EE pode ser utilizada ou não (Tratamento das Entradas):
 
@@ -194,7 +194,6 @@ def dados_finais_EE(x):
   sys1 = 0
   sys2 = 0
   atencao_DF = ''
-  tipo='EE'
   espaco_estado, verificador, erro2, atencao_RA = recebendo_arquivo(x)
   a1, b1, c1, d1, a2, b2, c2, d2, erro5 = analisando_matriz(
     espaco_estado, verificador, erro2)
@@ -213,7 +212,7 @@ def dados_finais_EE(x):
       #Exibir ao Usuário
       print("Sistema 1:\n")
       print(sys1)
-      return (sys1, sys2, atencao_RA, atencao_DF, erro5,tipo)
+      return (sys1, sys2, atencao_RA, atencao_DF, erro5)
 
     #Se for maior que 4 linhas, indica que tem outro sistema. Logo:
     else:
@@ -241,7 +240,7 @@ def dados_finais_EE(x):
       print(atencao_RA)
       print(erro5)
       print(atencao_DF)
-      return (sys1, sys2, atencao_RA, atencao_DF, erro5,tipo)
+      return (sys1, sys2, atencao_RA, atencao_DF, erro5)
   else:
     #Exibir para o usuário:
     print("Sistema 1:\n")
@@ -251,7 +250,7 @@ def dados_finais_EE(x):
     print(atencao_RA)
     print(erro5)
     print(atencao_DF)
-    return (sys1, sys2, atencao_RA, atencao_DF, erro5,tipo)
+    return (sys1, sys2, atencao_RA, atencao_DF, erro5)
 
 
 

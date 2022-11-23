@@ -15,8 +15,21 @@ from kivymd.uix.dialog import MDDialog
 
 #Globals
 import Global
-from blocos import bloco1,bloco2, bloco3, bloco4, bloco5, eeatt, ftatt
+from blocos import bloco1, bloco2, bloco3, bloco4, bloco5, eeatt, ftatt
 
+
+#TODO: centralizar os popups utilizando essa função
+def abrir_popup(self, msg, titl='ERROR'):
+    self.dialog = MDDialog(
+        title = titl, 
+        text= msg,
+        buttons=[MDFlatButton(
+            text="Ok",
+            on_release = self.fechar
+            )
+        ]
+    )
+    self.dialog.open()
 
 #----------------------------------------- Gerenciador de Telas ----------------------------------------#
 class GerenciarTelas(ScreenManager):
@@ -35,53 +48,21 @@ class Tela_Arquivo(Screen):
 class Tela_Representacao_Sistema(Screen):
 
     def FT(self):
-        if(Global.tipo =='FT'):            
-            self.dialog = MDDialog(
-                title = "ERROR",   
-                text= f"O Sistema ja é Função de Transferência",
-                buttons=[MDFlatButton(
-                    text="Ok",
-                    on_release = self.fechar
-                    )
-                ])
-            self.dialog.open()
+        print("Tipo: ", Global.tipo)
+        if(Global.tipo =='FT'):       
+            abrir_popup(self, "O Sistema ja é Função de Transferência")
         else:            
             sistema=bloco1.EE_FT(Global.sys1, Global.sys2)
             print(sistema)
-            self.dialog = MDDialog(
-                title = "Função de Espaço de Estado para Função de Transferência",   
-                text= f"{sistema}",
-                buttons=[MDFlatButton(
-                    text="Ok",
-                    on_release = self.fechar
-                    )
-                ])
-            self.dialog.open()
+            abrir_popup(self, f"{sistema}", "Função de Espaço de Estado para Função de Transferência")
 
     def EE(self):
-        if(Global.tipo =='EE'):            
-            self.dialog = MDDialog(
-                title = "ERROR",   
-                text= f"O Sistema ja é Função de Espaço de Estado",
-                buttons=[MDFlatButton(
-                    text="Ok",
-                    on_release = self.fechar
-                    )
-                ])
-            self.dialog.open()
+        if(Global.tipo =='EE'):
+            abrir_popup(self, "O Sistema ja é Função de Espaço de Estado")
         else:            
             sistema=bloco1.FT_EE(Global.sys1, Global.sys2)
             print(sistema)
-            self.dialog = MDDialog(
-                title = "Função de Função de Transferência para Espaço de Estado",   
-                text= f"{sistema}",
-                buttons=[MDFlatButton(
-                    text="Ok",
-                    on_release = self.fechar
-                    )
-                ])
-            self.dialog.open()
-
+            abrir_popup(self, f"{sistema}", "Função de Função de Transferência para Espaço de Estado")
 
     def fechar(self, obj):
         self.dialog.dismiss()  
@@ -97,34 +78,16 @@ class Tela_Diagrama_Bloco(Screen):
     def resp_serie(self):
         serie=bloco4.serie_bl4(Global.sys1,Global.sys2)
         print(serie)
-        
-        self.dialog = MDDialog(
-            title = "Resposta Serie",   
-            text= f"{serie}",
-            buttons=[MDFlatButton(
-                text="Ok",
-                on_release = self.fechar
-                )
-            ])
-        self.dialog.open()
+        abrir_popup(self, f"{serie}", "Resposta Serie")
 
     def resp_paralelo(self):
         paralelo=bloco4.paralelo_bl4(Global.sys1,Global.sys2)
         print(paralelo)
-        self.dialog = MDDialog(
-            title = "Resposta Paralelo",   
-            text= f"{paralelo}",
-            buttons=[MDFlatButton(
-                text="Ok",
-                on_release = self.fechar
-                )
-            ])
-        self.dialog.open()
-
+        abrir_popup(self, f"{paralelo}", "Resposta Paralelo")
     
     def fechar(self, obj):
         self.dialog.dismiss()    
-    pass
+
 class Tela_Estabilidade(Screen):
     def gerar_mapa_polos_zeros(self):
         polos, zeros = bloco5.mapa_polos_zeros(Global.sys1)
@@ -168,7 +131,6 @@ class Tela_Arquivo_FT(Screen):
     sys2=0
     error='nenhum'  
     
-    
     texto1=StringProperty('Anexe o arquivo .txt com as matrizes.')
     texto_A=StringProperty('Nenhuma Atenção.')
     texto_E=StringProperty('Nenhum Erro.')
@@ -188,6 +150,8 @@ class Tela_Arquivo_FT(Screen):
             
         if(Global.error !='sem erro'):
             Global.texto1=Global.error
+
+        Global.tipo = "FT"
         print(Global.sys1)
         print(Global.sys2)
         print(Global.error)
@@ -230,6 +194,8 @@ class Tela_Arquivo_EE(Screen):
             
         if(Global.error !='sem erro'):
             Global.texto1=Global.error
+
+        Global.tipo = "EE"
         print(Global.sys1)
         print(Global.sys2)
         print(Global.error)
@@ -237,11 +203,10 @@ class Tela_Arquivo_EE(Screen):
         self.texto1=root.directory
         self.texto_A=Global.atencao_EE_DF
         self.texto_E=Global.error
+
     def confirmacao(self,*args):
-        
         if(Global.error=='sem erro'):
-            self.manager.current=Projetoele.tela_menu
-    pass    
+            self.manager.current=Projetoele.tela_menu    
 
     def fechar(self, obj):
         self.dialog.dismiss()
@@ -251,7 +216,6 @@ class Tela_Arquivo_EE(Screen):
 def FuncaoTempo(t_final, t_inicial=0.0, X0=0.0):
     #X0 = []
     aux = 0
-    erro = 'sem erro'
     #Se a pessoa não quiser definir o tempo, basta deixar a variável em branco.
     if (t_inicial != ''):
         t_inicial = float(t_inicial)
@@ -277,18 +241,6 @@ def FuncaoTempo(t_final, t_inicial=0.0, X0=0.0):
     T = np.arange(t_inicial, t_final, 0.01)
     return (T, X0, aux)
 
-#TODO: centralizar os popups utilizando essa função
-def abrir_popup(self, msg, titl='ERROR'):
-    self.dialog = MDDialog(
-        title = titl, 
-        text= msg,
-        buttons=[MDFlatButton(
-            text="Ok",
-            on_release = self.fechar
-            )
-        ]
-    )
-    self.dialog.open()
 
 class Entrada_Tempo_impulso_unit(Screen):
     
@@ -387,34 +339,15 @@ class Entrada_Realimentacao_Tipo(Screen):
     def rea_positiva(self):
         posi=bloco4.reali_posi(Global.sys1,Global.sys2)
         print(posi)
-        self.dialog = MDDialog(
-            title = "Realimentação Positiva",   
-            text= f"{posi}",
-            buttons=[MDFlatButton(
-                text="Ok",
-                on_release = self.fechar
-                )
-            ])
-        self.dialog.open()
+        abrir_popup(self, f"{posi}", "Realimentação Positiva")
+
     def rea_negativa(self):
         nega=bloco4.reali_neg(Global.sys1,Global.sys2)
         print(nega)
-        self.dialog = MDDialog(
-            title = "Realimentação Negativa",   
-            text= f"{nega}",
-            buttons=[MDFlatButton(
-                text="Ok",
-                on_release = self.fechar
-                )
-            ])
-        self.dialog.open()
-
-            
+        abrir_popup(self, f"{nega}", "Realimentação Negativa")       
 
     def fechar(self, obj):
         self.dialog.dismiss()    
-
-    pass
 
 
 #App
