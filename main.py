@@ -19,7 +19,7 @@ from blocos import bloco1, bloco2, bloco3, bloco4, bloco5, eeatt, ftatt
 
 
 #TODO: centralizar os popups utilizando essa função
-def abrir_popup(self, msg, titl='ERROR'):
+def abrir_popup(self, msg, titl='ERRO'):
     self.dialog = MDDialog(
         title = titl, 
         text= msg,
@@ -51,18 +51,24 @@ class Tela_Representacao_Sistema(Screen):
         print("Tipo: ", Global.tipo)
         if(Global.tipo =='FT'):       
             abrir_popup(self, "O Sistema ja é Função de Transferência")
-        else:            
-            sistema=bloco1.EE_FT(Global.sys1, Global.sys2)
-            print(sistema)
-            abrir_popup(self, f"{sistema}", "Função de Espaço de Estado para Função de Transferência")
+        else:
+            try:
+                sistema=bloco1.EE_FT(Global.sys1, Global.sys2)
+                print(sistema)
+                abrir_popup(self, f"Sistema 1:{sistema[0]}\nSistema 2: {sistema[1]}", "Função de Espaço de Estado para Função de Transferência")
+            except Exception as e:
+                abrir_popup(self, "O sistema Espaço de Estado é impróprio, não pode ser convertida em Função de Transferência")
 
     def EE(self):
         if(Global.tipo =='EE'):
             abrir_popup(self, "O Sistema ja é Função de Espaço de Estado")
-        else:            
-            sistema=bloco1.FT_EE(Global.sys1, Global.sys2)
-            print(sistema)
-            abrir_popup(self, f"{sistema}", "Função de Função de Transferência para Espaço de Estado")
+        else:
+            try:
+                sistema=bloco1.FT_EE(Global.sys1, Global.sys2)
+                print(sistema)
+                abrir_popup(self, f"Sistema 1:{sistema[0]}\nSistema 2: {sistema[1]}", "Função de Função de Transferência para Espaço de Estado")
+            except Exception as e:
+                abrir_popup(self, "A Função de Transferência é imprópria, não pode ser convertida em Espaço de Estado")
 
     def fechar(self, obj):
         self.dialog.dismiss()  
@@ -107,11 +113,11 @@ class Tela_Estabilidade(Screen):
         marg_mag, marg_fase, freq_mag, freq_fase = bloco5.margem_estabilidade(Global.sys1)
 
         msgm = """
-                Sistema: {}\n
-                Margem de magnitude (dB): {:.4f}\n
-                Margem de fase (graus): {:.4f}\n
-                Frequência de cruzamento de magnitude (rad/s): {:.4f}\n
-                requência de cruzamento de fase (rad/s): {:.4f}
+Sistema: {}\n
+Margem de magnitude (dB): {:.4f}\n
+Margem de fase (graus): {:.4f}\n
+Frequência de cruzamento de magnitude (rad/s): {:.4f}\n
+Frequência de cruzamento de fase (rad/s): {:.4f}
             """.format(Global.sys1, marg_mag, marg_fase, freq_mag, freq_fase)
 
         abrir_popup(self, msgm, 'Margem de Estabilidade')
@@ -226,6 +232,8 @@ def FuncaoTempo(t_final, t_inicial=0.0, X0=0.0):
 
     if t_final != '':
         t_final = float(t_final)
+        if(t_final > 120):
+            raise Exception("Tempo final excedido.")
     else:
         t_final = 100.0
         aux = aux + 1
@@ -245,9 +253,12 @@ def FuncaoTempo(t_final, t_inicial=0.0, X0=0.0):
 class Entrada_Tempo_impulso_unit(Screen):
     
     def gerar_grafico_imp_unit(self):
-        T, X0 , aux = FuncaoTempo(self.ids.t_final.text, self.ids.t_inicial.text)
-
+        if(self.ids.t_inicial.text != '' and self.ids.t_final.text == ''):
+            self.ids.t_final.error = True
+            return
+           
         try:
+            T, X0 , aux = FuncaoTempo(self.ids.t_final.text, self.ids.t_inicial.text)
             bloco2.resp_impulso_unitario(Global.sys1, T, X0)
         except Exception as e:
             abrir_popup(self, str(e))
@@ -261,9 +272,12 @@ class Entrada_Tempo_impulso_unit(Screen):
 
 class Entrada_Tempo_degrau_unit(Screen):
     def gerar_grafico_deg_unit(self):
-        T, X0 , aux = FuncaoTempo(self.ids.t_final.text, self.ids.t_inicial.text)
+        if(self.ids.t_inicial.text != '' and self.ids.t_final.text == ''):
+            self.ids.t_final.error = True
+            return
 
         try:
+            T, X0 , aux = FuncaoTempo(self.ids.t_final.text, self.ids.t_inicial.text)
             bloco2.resp_degrau_unitario(Global.sys1, T, X0)
         except Exception as e:
             abrir_popup(self, str(e))
@@ -277,9 +291,12 @@ class Entrada_Tempo_degrau_unit(Screen):
 
 class Entrada_Tempo_condicao_ini(Screen):
     def gerar_grafico_codicao_ini(self):
-        T, X0, aux = FuncaoTempo(self.ids.t_final.text, self.ids.t_inicial.text)
+        if(self.ids.t_inicial.text != '' and self.ids.t_final.text == ''):
+            self.ids.t_final.error = True
+            return
 
         try:
+            T, X0, aux = FuncaoTempo(self.ids.t_final.text, self.ids.t_inicial.text)
             bloco2.resp_condicao_inicial(Global.sys1, T, X0)
         except Exception as e:
             abrir_popup(self, str(e))
@@ -295,9 +312,12 @@ class Entrada_Tempo_condicao_ini(Screen):
 
 class Entrada_Tempo_forcada(Screen):
     def gerar_grafico_resp_senoidal(self):
+        if(self.ids.t_inicial.text != '' and self.ids.t_final.text == ''):
+            self.ids.t_final.error = True
+            return
 
-        T, X0, aux = FuncaoTempo(self.ids.t_final.text, self.ids.t_inicial.text)
         try:
+            T, X0, aux = FuncaoTempo(self.ids.t_final.text, self.ids.t_inicial.text)
             bloco2.resp_senoidal(Global.sys1, T, X0, float(self.ids.amplitude.text))
         except Exception as e:
             abrir_popup(self, str(e))
@@ -375,6 +395,7 @@ class Projetoele(MDApp):
     Window.size =(600,600)
     Window.minimum_width = 300
     Window.minimum_height = 600
+
     def build(self):
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Yellow" ##FFEB3B

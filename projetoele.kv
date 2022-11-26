@@ -127,6 +127,7 @@ GerenciarTelas:
         MDTopAppBar:
             title: app.titulo
             pos_hint:{'top': 1}
+            elevation: 0
 
         MDBoxLayout:
             orientation: 'vertical'
@@ -172,7 +173,8 @@ GerenciarTelas:
                         on_release: root.caminho_arquivo_FT()
 
                     MDRoundFlatIconButton:
-                        text: "Confirmar"                
+                        text: "Confirmar"
+                        icon: "thumb-up"             
                         pos_hint: {'center_x': .5, 'center_y': .3}
                         theme_text_color: 'ContrastParentBackground'
                         theme_icon_color: 'ContrastParentBackground'
@@ -185,6 +187,7 @@ GerenciarTelas:
         MDTopAppBar:
             title: app.titulo
             pos_hint:{'top': 1}
+            elevation: 0
 
         MDBoxLayout:
             orientation: 'vertical'
@@ -229,7 +232,8 @@ GerenciarTelas:
                         on_release: root.caminho_arquivo_EE()
 
                     MDRoundFlatIconButton:
-                        text: "Confirmar"                
+                        text: "Confirmar"  
+                        icon: "thumb-up"              
                         pos_hint: {'center_x': .5, 'center_y': .3}
                         theme_text_color: 'ContrastParentBackground'
                         theme_icon_color: 'ContrastParentBackground'
@@ -387,8 +391,8 @@ GerenciarTelas:
                 MDBoxLayout:
                     orientation: 'vertical'
                     adaptive_height: True
-                    
                     spacing: 10
+
                     MDRaisedButton:
                         text: "Resposta ao Impulso Unitário"
                         pos_hint:{'center_x': 0.5, 'center_y': 0.5}
@@ -613,11 +617,18 @@ GerenciarTelas:
             id: t_inicial
             hint_text: "Digite o tempo inicial:"
             input_filter: "float"
+            text_color_focus: app.theme_cls.primary_dark
+            hint_text_color_focus: app.theme_cls.primary_dark
+            line_color_focus: app.theme_cls.primary_dark
         
         MDTextField:
             id: t_final
             hint_text: "Digite o tempo final:"
             input_filter: "float"
+            text_color_focus: app.theme_cls.primary_dark
+            hint_text_color_focus: app.theme_cls.primary_dark
+            line_color_focus: app.theme_cls.primary_dark
+            helper_text: 'Tempo máximo de simulação: 120 segundos'
 
         MDBoxLayout:
             MDFlatButton:
@@ -625,6 +636,7 @@ GerenciarTelas:
                 on_release: 
                     app.root.current = app.tela_tempo_resposta
                     app.root.transition.direction = 'right'
+                    root.clear()
 
             MDFlatButton:
                 text: 'Ok'
@@ -652,11 +664,18 @@ GerenciarTelas:
             id: t_inicial
             hint_text: "Digite o tempo inicial:"
             input_filter: "float"
+            text_color_focus: app.theme_cls.primary_dark
+            hint_text_color_focus: app.theme_cls.primary_dark
+            line_color_focus: app.theme_cls.primary_dark
         
         MDTextField:
             id: t_final
             hint_text: "Digite o tempo final:"
             input_filter: "float"
+            text_color_focus: app.theme_cls.primary_dark
+            hint_text_color_focus: app.theme_cls.primary_dark
+            line_color_focus: app.theme_cls.primary_dark
+            helper_text: 'Tempo máximo de simulação: 120 segundos'
 
         MDBoxLayout:
             MDFlatButton:
@@ -664,6 +683,7 @@ GerenciarTelas:
                 on_release: 
                     app.root.current = app.tela_tempo_resposta
                     app.root.transition.direction = 'right'
+                    root.clear()
 
             MDFlatButton:
                 text: 'Ok'
@@ -691,11 +711,19 @@ GerenciarTelas:
             id: t_inicial
             hint_text: "Digite o tempo inicial:"
             input_filter: "float"
+            text_color_focus: app.theme_cls.primary_dark
+            hint_text_color_focus: app.theme_cls.primary_dark
+            line_color_focus: app.theme_cls.primary_dark
         
         MDTextField:
             id: t_final
             hint_text: "Digite o tempo final:"
             input_filter: "float"
+            text_color_focus: app.theme_cls.primary_dark
+            hint_text_color_focus: app.theme_cls.primary_dark
+            line_color_focus: app.theme_cls.primary_dark
+            helper_text: 'Tempo máximo de simulação: 120 segundos'
+
         MDLabel:
             text: 'Condição Inicial:'
 
@@ -707,6 +735,9 @@ GerenciarTelas:
                 mode: "rectangle"
                 size_hint_x: .5 
                 pos_hint: {'top': 1}
+                text_color_focus: app.theme_cls.primary_dark
+                hint_text_color_focus: app.theme_cls.primary_dark
+                line_color_focus: app.theme_cls.primary_dark
 
             MDTextField:
                 id: elemento2
@@ -714,6 +745,9 @@ GerenciarTelas:
                 mode: "rectangle"
                 size_hint_x: .5 
                 pos_hint: {'top': 1}
+                text_color_focus: app.theme_cls.primary_dark
+                hint_text_color_focus: app.theme_cls.primary_dark
+                line_color_focus: app.theme_cls.primary_dark
 
         MDBoxLayout:
             MDFlatButton:
@@ -721,6 +755,7 @@ GerenciarTelas:
                 on_release: 
                     app.root.current = app.tela_tempo_resposta
                     app.root.transition.direction = 'right'
+                    root.clear()
 
             MDFlatButton:
                 text: 'Ok'
@@ -748,11 +783,19 @@ GerenciarTelas:
             id: t_inicial
             hint_text: "Digite o tempo inicial:"
             input_filter: "float"
+            text_color_focus: app.theme_cls.primary_dark
+            hint_text_color_focus: app.theme_cls.primary_dark
+            line_color_focus: app.theme_cls.primary_dark
+            
         
         MDTextField:
             id: t_final
             hint_text: "Digite o tempo final:"
             input_filter: "float"
+            text_color_focus: app.theme_cls.primary_dark
+            hint_text_color_focus: app.theme_cls.primary_dark
+            line_color_focus: app.theme_cls.primary_dark
+            helper_text: 'Tempo máximo de simulação: 120 segundos'
 
         MDLabel:
             text: 'Digite o valor de amplitude da senoide:'
@@ -762,6 +805,9 @@ GerenciarTelas:
             hint_text: "Amplitude"
             input_filter: "float"
             mode: "rectangle"
+            text_color_focus: app.theme_cls.primary_dark
+            hint_text_color_focus: app.theme_cls.primary_dark
+            line_color_focus: app.theme_cls.primary_dark
 
 
         MDBoxLayout:
@@ -770,6 +816,7 @@ GerenciarTelas:
                 on_release: 
                     app.root.current = app.tela_tempo_resposta
                     app.root.transition.direction = 'right'
+                    root.clear()
 
             MDFlatButton:
                 text: 'Ok'

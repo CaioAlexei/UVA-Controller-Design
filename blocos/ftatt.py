@@ -55,7 +55,7 @@ def analisando_funcao(funcao, verificador):
     print(atencao3)
 
   if len(num2) > len(den2):
-    atencao3 += " ATENÇÃO!!! Para o SISTEMA 2, o número de zeros (z)  é maior que o número de polos (p)! Para z > p, o sistema não pode ser modelado fisicamente, podendo gerar inconsistência nos resultados de análise!!"
+    atencao3 += "\nATENÇÃO!!! Para o SISTEMA 2, o número de zeros (z)  é maior que o número de polos (p)! Para z > p, o sistema não pode ser modelado fisicamente, podendo gerar inconsistência nos resultados de análise!!"
     print(atencao3)
   
   return (num1, den1, num2, den2, erro3, atencao3, apto_root_locus)
@@ -110,7 +110,7 @@ def recebendo_arquivo(nome):
 
     # Se o arquivo tiver pelo menos de  2linhas:
   if len(lista_arquivo) < 2:
-    erro = "O arquivo deve conter no mínimo deve conter no mínimo de 4 linhas\n"
+    erro = "O arquivo deve conter no mínimo 4 linhas\n"
     print(erro)
     raise Exception(erro)
 
