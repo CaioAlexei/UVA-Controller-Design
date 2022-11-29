@@ -70,6 +70,7 @@ GerenciarTelas:
                     elevation: 2
                     on_release:
                         app.root.current = app.tela_escolha_sistema
+                        app.root.transition.direction = 'left'
 
 <Tela_Escolha_Tipo_Sistema>
     MDBoxLayout:
@@ -111,6 +112,7 @@ GerenciarTelas:
                     width: root.width*0.7
                     on_release:
                         app.root.current = app.tela_arquivo_ft
+                        app.root.transition.direction = 'left'
 
                 MDRaisedButton:
                     text:'Espaço de Estado'
@@ -120,7 +122,8 @@ GerenciarTelas:
                     width: root.width*0.7
                     on_release:
                         app.root.current = app.tela_arquivo_ee
-
+                        app.root.transition.direction = 'left'
+            
 <Tela_Arquivo_FT>
     BoxLayout:
         orientation: 'vertical'
@@ -180,7 +183,12 @@ GerenciarTelas:
                         theme_icon_color: 'ContrastParentBackground'
                         line_color: 0,0,0,1
                         on_release: root.confirmacao()
-
+            
+            MDIconButton:
+                icon: 'arrow-left'
+                on_release:
+                    app.root.current = app.tela_escolha_sistema
+                    app.root.transition.direction = 'right'
 <Tela_Arquivo_EE>
     BoxLayout:
         orientation: 'vertical'
@@ -239,7 +247,11 @@ GerenciarTelas:
                         theme_icon_color: 'ContrastParentBackground'
                         line_color: 0,0,0,1
                         on_release: root.confirmacao()
-        
+            MDIconButton:
+                icon: 'arrow-left'
+                on_release:
+                    app.root.current = app.tela_escolha_sistema
+                    app.root.transition.direction = 'right'
 <Tela_Menu>
     MDBoxLayout:
         orientation: 'vertical'
@@ -272,35 +284,45 @@ GerenciarTelas:
                 MDRaisedButton:
                     text:'Representação do Sistema'
                     pos_hint:{'center_x': 0.5, 'center_y': 0.5}
-                    on_release: app.root.current = app.tela_representacao_sistema
+                    on_release:
+                        app.root.current = app.tela_representacao_sistema
+                        app.root.transition.direction = 'left'
                     size_hint: None, None
                     width: root.width*0.7    
 
                 MDRaisedButton:
                     text:'Tempo de Resposta'
                     pos_hint:{'center_x': 0.5, 'center_y': 0.5}
-                    on_release: app.root.current = app.tela_tempo_resposta
+                    on_release:
+                        app.root.current = app.tela_tempo_resposta
+                        app.root.transition.direction = 'left'
                     size_hint: None, None
                     width: root.width*0.7
 
                 MDRaisedButton:
                     text:'Resposta de Frequência'
                     pos_hint:{'center_x': 0.5, 'center_y': 0.5}
-                    on_release: app.root.current = app.tela_resposta_frequencia
+                    on_release:
+                        app.root.current = app.tela_resposta_frequencia
+                        app.root.transition.direction = 'left'
                     size_hint: None, None
                     width: root.width*0.7
 
                 MDRaisedButton:
                     text:'Diagrama de Bloco'
                     pos_hint:{'center_x': 0.5, 'center_y': 0.5}
-                    on_release: app.root.current = app.tela_diagrama_bloco
+                    on_release:
+                        app.root.current = app.tela_diagrama_bloco
+                        app.root.transition.direction = 'left'
                     size_hint: None, None
                     width: root.width*0.7
 
                 MDRaisedButton:
                     text:'Estabilidade'
                     pos_hint:{'center_x': 0.5, 'center_y': 0.5}
-                    on_release: app.root.current = app.tela_estabilidade
+                    on_release:
+                        app.root.current = app.tela_estabilidade
+                        app.root.transition.direction = 'left'
                     size_hint: None, None
                     width: root.width*0.7
 
@@ -358,6 +380,7 @@ GerenciarTelas:
             icon: 'arrow-left'
             on_release:
                 app.root.current = app.tela_menu
+                app.root.transition.direction = 'right'
 
 <Tela_Tempo_Resposta>
     MDBoxLayout:
@@ -400,29 +423,37 @@ GerenciarTelas:
                         width: root.width*0.8
                         on_release: 
                             app.root.current = 'entr_impulso_unit'
+                            app.root.transition.direction = 'left'
                             
                     MDRaisedButton:
                         text: "Resposta ao Degrau Unitário"
                         pos_hint:{'center_x': 0.5, 'center_y': 0.5}
                         size_hint: None, None
                         width: root.width*0.8
-                        on_release: app.root.current = 'entr_degrau_unit'
+                        on_release:
+                            app.root.current = 'entr_degrau_unit'
+                            app.root.transition.direction = 'left'
                     MDRaisedButton:
                         text: "Resposta com uma condição inicial"
                         pos_hint:{'center_x': 0.5, 'center_y': 0.5}
                         size_hint: None, None
                         width: root.width*0.8
-                        on_release: app.root.current = 'entr_condicao_ini'
+                        on_release:
+                            app.root.current = 'entr_condicao_ini'
+                            app.root.transition.direction = 'left'
                     MDRaisedButton:
                         text: "Resposta com Entrada Senoidal"
                         pos_hint:{'center_x': 0.5, 'center_y': 0.5}
                         size_hint: None, None
                         width: root.width*0.8
-                        on_release: app.root.current = 'entr_forcada'
+                        on_release:
+                            app.root.current = 'entr_forcada'
+                            app.root.transition.direction = 'left'
         MDIconButton:
             icon: 'arrow-left'
             on_release:
                 app.root.current = app.tela_menu
+                app.root.transition.direction = 'right'
 
 <Tela_Resposta_Frequencia>
     MDBoxLayout:
@@ -475,6 +506,7 @@ GerenciarTelas:
             icon: 'arrow-left'
             on_release:
                 app.root.current = app.tela_menu
+                app.root.transition.direction = 'right'
 
 <Tela_Diagrama_Bloco>
     MDBoxLayout:
@@ -534,6 +566,7 @@ GerenciarTelas:
             icon: 'arrow-left'
             on_release:
                 app.root.current = app.tela_menu
+                app.root.transition.direction = 'right'
 <Tela_Estabilidade>
     MDBoxLayout:
         orientation: 'vertical'
@@ -592,6 +625,7 @@ GerenciarTelas:
             icon: 'arrow-left'
             on_release:
                 app.root.current = app.tela_menu
+                app.root.transition.direction = 'right'
 
 # ------------------------------------------- Telas Secundárias ------------------------------------------ #
 
@@ -617,17 +651,17 @@ GerenciarTelas:
             id: t_inicial
             hint_text: "Digite o tempo inicial:"
             input_filter: "float"
-            text_color_focus: app.theme_cls.primary_dark
-            hint_text_color_focus: app.theme_cls.primary_dark
-            line_color_focus: app.theme_cls.primary_dark
+            text_color_focus: "000000"
+            hint_text_color_focus: "000000"
+            line_color_focus: "000000"
         
         MDTextField:
             id: t_final
             hint_text: "Digite o tempo final:"
             input_filter: "float"
-            text_color_focus: app.theme_cls.primary_dark
-            hint_text_color_focus: app.theme_cls.primary_dark
-            line_color_focus: app.theme_cls.primary_dark
+            text_color_focus: "000000"
+            hint_text_color_focus: "000000"
+            line_color_focus: "000000"
             helper_text: 'Tempo máximo de simulação: 120 segundos'
 
         MDBoxLayout:
@@ -664,17 +698,17 @@ GerenciarTelas:
             id: t_inicial
             hint_text: "Digite o tempo inicial:"
             input_filter: "float"
-            text_color_focus: app.theme_cls.primary_dark
-            hint_text_color_focus: app.theme_cls.primary_dark
-            line_color_focus: app.theme_cls.primary_dark
+            text_color_focus: "000000"
+            hint_text_color_focus: "000000"
+            line_color_focus: "000000"
         
         MDTextField:
             id: t_final
             hint_text: "Digite o tempo final:"
             input_filter: "float"
-            text_color_focus: app.theme_cls.primary_dark
-            hint_text_color_focus: app.theme_cls.primary_dark
-            line_color_focus: app.theme_cls.primary_dark
+            text_color_focus: "000000"
+            hint_text_color_focus: "000000"
+            line_color_focus: "000000"
             helper_text: 'Tempo máximo de simulação: 120 segundos'
 
         MDBoxLayout:
@@ -711,17 +745,17 @@ GerenciarTelas:
             id: t_inicial
             hint_text: "Digite o tempo inicial:"
             input_filter: "float"
-            text_color_focus: app.theme_cls.primary_dark
-            hint_text_color_focus: app.theme_cls.primary_dark
-            line_color_focus: app.theme_cls.primary_dark
+            text_color_focus: "000000"
+            hint_text_color_focus: "000000"
+            line_color_focus: "000000"
         
         MDTextField:
             id: t_final
             hint_text: "Digite o tempo final:"
             input_filter: "float"
-            text_color_focus: app.theme_cls.primary_dark
-            hint_text_color_focus: app.theme_cls.primary_dark
-            line_color_focus: app.theme_cls.primary_dark
+            text_color_focus: "000000"
+            hint_text_color_focus: "000000"
+            line_color_focus: "000000"
             helper_text: 'Tempo máximo de simulação: 120 segundos'
 
         MDLabel:
@@ -735,9 +769,9 @@ GerenciarTelas:
                 mode: "rectangle"
                 size_hint_x: .5 
                 pos_hint: {'top': 1}
-                text_color_focus: app.theme_cls.primary_dark
-                hint_text_color_focus: app.theme_cls.primary_dark
-                line_color_focus: app.theme_cls.primary_dark
+                text_color_focus: "000000"
+                hint_text_color_focus: "000000"
+                line_color_focus: "000000"
 
             MDTextField:
                 id: elemento2
@@ -745,9 +779,9 @@ GerenciarTelas:
                 mode: "rectangle"
                 size_hint_x: .5 
                 pos_hint: {'top': 1}
-                text_color_focus: app.theme_cls.primary_dark
-                hint_text_color_focus: app.theme_cls.primary_dark
-                line_color_focus: app.theme_cls.primary_dark
+                text_color_focus: "000000"
+                hint_text_color_focus: "000000"
+                line_color_focus: "000000"
 
         MDBoxLayout:
             MDFlatButton:
@@ -783,18 +817,18 @@ GerenciarTelas:
             id: t_inicial
             hint_text: "Digite o tempo inicial:"
             input_filter: "float"
-            text_color_focus: app.theme_cls.primary_dark
-            hint_text_color_focus: app.theme_cls.primary_dark
-            line_color_focus: app.theme_cls.primary_dark
+            text_color_focus: "000000"
+            hint_text_color_focus: "000000"
+            line_color_focus: "000000"
             
         
         MDTextField:
             id: t_final
             hint_text: "Digite o tempo final:"
             input_filter: "float"
-            text_color_focus: app.theme_cls.primary_dark
-            hint_text_color_focus: app.theme_cls.primary_dark
-            line_color_focus: app.theme_cls.primary_dark
+            text_color_focus: "000000"
+            hint_text_color_focus: "000000"
+            line_color_focus: "000000"
             helper_text: 'Tempo máximo de simulação: 120 segundos'
 
         MDLabel:
@@ -805,9 +839,9 @@ GerenciarTelas:
             hint_text: "Amplitude"
             input_filter: "float"
             mode: "rectangle"
-            text_color_focus: app.theme_cls.primary_dark
-            hint_text_color_focus: app.theme_cls.primary_dark
-            line_color_focus: app.theme_cls.primary_dark
+            text_color_focus: "000000"
+            hint_text_color_focus: "000000"
+            line_color_focus: "000000"
 
 
         MDBoxLayout:
@@ -860,7 +894,7 @@ GerenciarTelas:
                 on_release: 
                     app.root.current = app.tela_resposta_frequencia
                     root.clear()
-                    app.root.transition.direction = 'right'
+                    app.root.transition.direction = 'left'
 
             MDFlatButton:
                 text: 'Ok'
@@ -912,4 +946,5 @@ GerenciarTelas:
         MDIconButton:
             icon: 'arrow-left'
             on_release:
-                app.root.current = app.tela_diagrama_bloco
+                app.root.current =app.tela_diagrama_bloco
+                app.root.transition.direction = 'right'
