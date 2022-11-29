@@ -48,13 +48,13 @@ class Tela_Arquivo(Screen):
 class Tela_Representacao_Sistema(Screen):
 
     def FT(self):
-        print("Tipo: ", Global.tipo)
+        # print("Tipo: ", Global.tipo)
         if(Global.tipo =='FT'):       
             abrir_popup(self, "O Sistema ja é Função de Transferência")
         else:
             try:
                 sistema=bloco1.EE_FT(Global.sys1, Global.sys2)
-                print(sistema)
+                # print(sistema)
                 abrir_popup(self, f"Sistema 1:{sistema[0]}\nSistema 2: {sistema[1]}", "Função de Espaço de Estado para Função de Transferência")
             except Exception as e:
                 abrir_popup(self, "O sistema Espaço de Estado é impróprio, não pode ser convertida em Função de Transferência")
@@ -65,7 +65,7 @@ class Tela_Representacao_Sistema(Screen):
         else:
             try:
                 sistema=bloco1.FT_EE(Global.sys1, Global.sys2)
-                print(sistema)
+                # print(sistema)
                 abrir_popup(self, f"Sistema 1:{sistema[0]}\nSistema 2: {sistema[1]}", "Função de Função de Transferência para Espaço de Estado")
             except Exception as e:
                 abrir_popup(self, "A Função de Transferência é imprópria, não pode ser convertida em Espaço de Estado")
@@ -83,12 +83,12 @@ class Tela_Resposta_Frequencia(Screen):
 class Tela_Diagrama_Bloco(Screen):
     def resp_serie(self):
         serie=bloco4.serie_bl4(Global.sys1,Global.sys2)
-        print(serie)
+        # print(serie)
         abrir_popup(self, f"{serie}", "Resposta Serie")
 
     def resp_paralelo(self):
         paralelo=bloco4.paralelo_bl4(Global.sys1,Global.sys2)
-        print(paralelo)
+        # print(paralelo)
         abrir_popup(self, f"{paralelo}", "Resposta Paralelo")
     
     def fechar(self, obj):
@@ -158,13 +158,13 @@ class Tela_Arquivo_FT(Screen):
             Global.texto1=Global.error
 
         Global.tipo = "FT"
-        print(Global.sys1)
-        print(Global.sys2)
-        print(Global.error)
         self.texto_A=Global.atencao
         self.texto_E=Global.error
-        print(Global.atencao)
-        print("Apto para root locus? ", Global.tem_atencao)
+        # print(Global.sys1)
+        # print(Global.sys2)
+        # print(Global.error)
+        # print(Global.atencao)
+        # print("Apto para root locus? ", Global.tem_atencao)
     
     def fechar(self, obj):
         self.dialog.dismiss()
@@ -189,7 +189,7 @@ class Tela_Arquivo_EE(Screen):
         root = Tk()
         root.withdraw()
         root.directory = filedialog.askopenfilename(filetypes=(("text files","txt"),))
-        print (root.directory)
+        # print (root.directory)
         
         Global.caminho_arquivo=root.directory   
         try:     
@@ -202,10 +202,10 @@ class Tela_Arquivo_EE(Screen):
             Global.texto1=Global.error
 
         Global.tipo = "EE"
-        print(Global.sys1)
-        print(Global.sys2)
-        print(Global.error)
-        print(Global.atencao)
+        # print(Global.sys1)
+        # print(Global.sys2)
+        # print(Global.error)
+        # print(Global.atencao)
         self.texto1=root.directory
         self.texto_A=Global.atencao_EE_DF
         self.texto_E=Global.error
@@ -228,7 +228,7 @@ def FuncaoTempo(t_final, t_inicial=0.0, X0=0.0):
     else:
         t_inicial = 0.0
         aux = aux + 1
-    print("Tempo inicial: ", t_inicial)
+    # print("Tempo inicial: ", t_inicial)
 
     if t_final != '':
         t_final = float(t_final)
@@ -237,7 +237,7 @@ def FuncaoTempo(t_final, t_inicial=0.0, X0=0.0):
     else:
         t_final = 100.0
         aux = aux + 1
-    print("Tempo final: ", t_final)
+    # print("Tempo final: ", t_final)
 
     #Condição Inicial (X0):
     if X0 != '':
@@ -339,11 +339,12 @@ class Entrada_Tempo_Ini_Fim(Screen):
   
     def gerar_grafico_bode(self):
         if(self.ids.fmax.text == "" or self.ids.fmin.text == ""):
-            return
+            f_max = 100
+            f_min = 1
+        else:
+            f_max = float(self.ids.fmax.text)
+            f_min = float(self.ids.fmin.text)
 
-        f_max = float(self.ids.fmax.text)
-        f_min = float(self.ids.fmin.text)
-        print(Global.sys1)
         bloco3.diagrama_bode(f_max, f_min,Global.sys1)
         
 
@@ -358,12 +359,12 @@ class Entrada_Tempo_Ini_Fim(Screen):
 class Entrada_Realimentacao_Tipo(Screen):
     def rea_positiva(self):
         posi=bloco4.reali_posi(Global.sys1,Global.sys2)
-        print(posi)
+        # print(posi)
         abrir_popup(self, f"{posi}", "Realimentação Positiva")
 
     def rea_negativa(self):
         nega=bloco4.reali_neg(Global.sys1,Global.sys2)
-        print(nega)
+        # print(nega)
         abrir_popup(self, f"{nega}", "Realimentação Negativa")       
 
     def fechar(self, obj):
@@ -397,6 +398,7 @@ class Projetoele(MDApp):
     Window.minimum_height = 600
 
     def build(self):
+        self.title = self.titulo
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Yellow" ##FFEB3B
         return Builder.load_file('projetoele.kv')

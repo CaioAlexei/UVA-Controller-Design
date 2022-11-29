@@ -111,7 +111,7 @@ def analisando_matriz(espaco_estado, verificador, erro3):
             aux = aux + 1
           if aux >= 1:
             print(erro4)
-            exit()
+            raise Exception(erro4)
 
     return (a1, b1, c1, d1, a2, b2, c2, d2, erro4)
   else:
