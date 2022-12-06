@@ -123,6 +123,12 @@ GerenciarTelas:
                     on_release:
                         app.root.current = app.tela_arquivo_ee
                         app.root.transition.direction = 'left'
+        
+        MDIconButton:
+            icon: 'arrow-left'
+            on_release:
+                app.root.current = app.tela_inicio
+                app.root.transition.direction = 'right'
             
 <Tela_Arquivo_FT>
     BoxLayout:
@@ -134,6 +140,7 @@ GerenciarTelas:
 
         MDBoxLayout:
             orientation: 'vertical'
+            spacing: 20
             padding: 10
             
             MDLabel:
@@ -199,7 +206,9 @@ GerenciarTelas:
 
         MDBoxLayout:
             orientation: 'vertical'
+            spacing: 20
             padding: 10
+            
             MDLabel:
                 text:'Representação do Sistema'
                 font_style: 'H4'
@@ -325,6 +334,12 @@ GerenciarTelas:
                         app.root.transition.direction = 'left'
                     size_hint: None, None
                     width: root.width*0.7
+                
+        MDFloatingActionButton:
+            icon: "file-replace"
+            on_release:
+                app.root.current = app.tela_escolha_sistema
+                app.reset_global_var()
 
 
 <Tela_Representacao_Sistema>
@@ -764,20 +779,10 @@ GerenciarTelas:
         MDBoxLayout:
             spacing: 10
             MDTextField:
-                id: elemento1
-                hint_text: "1º Elemento:"
+                id: condicao_inicial
+                hint_text: "Condição"
+                input_filter: "float"
                 mode: "rectangle"
-                size_hint_x: .5 
-                pos_hint: {'top': 1}
-                text_color_focus: "000000"
-                hint_text_color_focus: "000000"
-                line_color_focus: "000000"
-
-            MDTextField:
-                id: elemento2
-                hint_text: "2º Elemento"
-                mode: "rectangle"
-                size_hint_x: .5 
                 pos_hint: {'top': 1}
                 text_color_focus: "000000"
                 hint_text_color_focus: "000000"
@@ -795,7 +800,7 @@ GerenciarTelas:
                 text: 'Ok'
                 on_release:
                     root.gerar_grafico_codicao_ini()
-                    root.clear()
+                    
 
 <Entrada_Tempo_forcada>
     MDBoxLayout:
@@ -856,7 +861,6 @@ GerenciarTelas:
                 text: 'Ok'
                 on_release:
                     root.gerar_grafico_resp_senoidal()
-                    root.clear()
 
 #---Resposta de Frequência---#
 

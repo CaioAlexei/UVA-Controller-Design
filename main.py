@@ -55,7 +55,7 @@ class Tela_Representacao_Sistema(Screen):
             try:
                 sistema=bloco1.EE_FT(Global.sys1, Global.sys2)
                 # print(sistema)
-                abrir_popup(self, f"Sistema 1:{sistema[0]}\nSistema 2: {sistema[1]}", "Função de Espaço de Estado para Função de Transferência")
+                abrir_popup(self, f"Sistema 1:\n{sistema[0]}\nSistema 2:\n{sistema[1]}", "Função de Espaço de Estado para Função de Transferência")
             except Exception as e:
                 abrir_popup(self, "O sistema Espaço de Estado é impróprio, não pode ser convertida em Função de Transferência")
 
@@ -66,7 +66,7 @@ class Tela_Representacao_Sistema(Screen):
             try:
                 sistema=bloco1.FT_EE(Global.sys1, Global.sys2)
                 # print(sistema)
-                abrir_popup(self, f"Sistema 1:{sistema[0]}\nSistema 2: {sistema[1]}", "Função de Função de Transferência para Espaço de Estado")
+                abrir_popup(self, f"Sistema 1:\n{sistema[0]}\nSistema 2:\n{sistema[1]}", "Função de Função de Transferência para Espaço de Estado")
             except Exception as e:
                 abrir_popup(self, "A Função de Transferência é imprópria, não pode ser convertida em Espaço de Estado")
 
@@ -104,7 +104,7 @@ class Tela_Estabilidade(Screen):
         )
     
     def gerar_root_locus(self):
-        if(Global.tem_atencao):
+        if(not Global.tem_atencao):
             bloco5.lugar_raizes(Global.sys1)
         else:
             abrir_popup(self, "Sistema impróprio para Root Locus.")
@@ -171,10 +171,11 @@ class Tela_Arquivo_FT(Screen):
         
 
     def confirmacao(self,*args):
-        self.texto1 = ''
         if(Global.error=='sem erro'):
-            self.manager.current=Projetoele.tela_menu   
-    pass
+            self.manager.current=Projetoele.tela_menu
+            self.texto1='Anexe o arquivo .txt com as matrizes.'
+            self.texto_A='Nenhuma Atenção.'
+            self.texto_E='Nenhum Erro.'
 
 class Tela_Arquivo_EE(Screen):
     caminho_arquivo=''
@@ -212,7 +213,11 @@ class Tela_Arquivo_EE(Screen):
 
     def confirmacao(self,*args):
         if(Global.error=='sem erro'):
-            self.manager.current=Projetoele.tela_menu    
+            self.manager.current=Projetoele.tela_menu
+            self.texto1='Anexe o arquivo .txt com as matrizes.'
+            self.texto_A='Nenhuma Atenção.'
+            self.texto_E='Nenhum Erro.'
+
 
     def fechar(self, obj):
         self.dialog.dismiss()
@@ -294,18 +299,21 @@ class Entrada_Tempo_condicao_ini(Screen):
         if(self.ids.t_inicial.text != '' and self.ids.t_final.text == ''):
             self.ids.t_final.error = True
             return
+        if(self.ids.condicao_inicial.text == ''):
+            self.ids.condicao_inicial.error = True
+            return
 
         try:
-            T, X0, aux = FuncaoTempo(self.ids.t_final.text, self.ids.t_inicial.text)
+            T, X0, aux = FuncaoTempo(self.ids.t_final.text, self.ids.t_inicial.text, self.ids.condicao_inicial.text)
             bloco2.resp_condicao_inicial(Global.sys1, T, X0)
+            self.clear()
         except Exception as e:
             abrir_popup(self, str(e))
         
     def clear(self):
         self.ids.t_inicial.text = ""
         self.ids.t_final.text = ""
-        self.ids.elemento1.text = ""
-        self.ids.elemento2.text = ""
+        self.ids.condicao_inicial.text = ""
 
     def fechar(self, obj):
         self.dialog.dismiss()
@@ -315,10 +323,15 @@ class Entrada_Tempo_forcada(Screen):
         if(self.ids.t_inicial.text != '' and self.ids.t_final.text == ''):
             self.ids.t_final.error = True
             return
+        if(self.ids.amplitude.text == ''):
+            self.ids.amplitude.error = True
+            abrir_popup(self, "Por favor, inserir valor de amplitude")
+            return
 
         try:
             T, X0, aux = FuncaoTempo(self.ids.t_final.text, self.ids.t_inicial.text)
             bloco2.resp_senoidal(Global.sys1, T, X0, float(self.ids.amplitude.text))
+            self.clear()
         except Exception as e:
             abrir_popup(self, str(e))
 
@@ -394,7 +407,7 @@ class Projetoele(MDApp):
     #titulo do app
     titulo='Controller Design'
     Window.size =(600,600)
-    Window.minimum_width = 300
+    Window.minimum_width = 600
     Window.minimum_height = 600
 
     def build(self):
@@ -402,6 +415,19 @@ class Projetoele(MDApp):
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Yellow" ##FFEB3B
         return Builder.load_file('projetoele.kv')
+
+    # Reseta as variáveis globais ao trocar de sistema
+    def reset_global_var(self):
+        Global.caminho_arquivo=''
+        Global.sys1=0
+        Global.sys2=0
+        Global.error=''
+        Global.atencao=''
+        Global.atencao_EE_RA=''
+        Global.atencao_EE_DF=''
+        Global.apto_root_locus=True
+        Global.tipo=''
+        Global.tem_atencao=False
 
 if __name__ == '__main__':
     if hasattr(sys, '_MEIPASS'):
